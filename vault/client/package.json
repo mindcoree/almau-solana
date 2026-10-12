@@ -1,0 +1,14 @@
+{
+  "name": "vault-skeleton-client",
+  "private": true,
+  "type": "module",
+  "description": "Неделя 8: создать vault, открыть позицию и проверить PDA в Devnet",
+  "scripts": {
+    "demo": "node vault.mjs",
+    "show": "node vault.mjs show"
+  },
+  "dependencies": {
+    "@anchor-lang/core": "1.2.0",
+    "@solana/spl-token": "^0.4.15"
+  }
+}
