@@ -25,7 +25,7 @@
 | Неделя 5 — Anchor Counter | Счётчик пользователя на PDA: создание, увеличение и уменьшение, IDL и клиент | [counter/](counter/README.md) | [Отчёт](reports/week-05-anchor-counter.docx) |
 | Неделя 6 — профиль на PDA | Профиль с уникальным именем, поиском по кошельку и имени, обновлением и закрытием | [profile/](profile/README.md) | [Отчёт](reports/week-06-pda-profile.docx) |
 | Неделя 7 — Token-2022 | Выпущен Timur Token (TMR) с метаданными и комиссией за перевод; выполнены операции через клиент | [token/](token/README.md) | [Отчёт](reports/week-07-token-2022-tmr.docx) |
-| Неделя 8 — каркас vault | Настройки, share-mint, хранилище и позиции пользователей на PDA; деплой ожидает Devnet SOL | [vault/](vault/README.md) | [Схема и защита](vault/README.md#схема-аккаунтов) |
+| Неделя 8 — каркас vault | Программа в Devnet: настройки, share-mint, хранилище TMR и позиции пользователей на PDA | [vault/](vault/README.md) | [Схема и защита](vault/README.md#схема-аккаунтов) |
 
 ### Неделя 3 — локальная копилка Piggy
 
@@ -213,8 +213,11 @@ Devnet. Собственный кошелёк позволяет вызвать 
 | Anchor Counter | [HN2SRai9T3z7Rsw2avdz7Ns5tewqHctg9JeTeiSU6jTW](https://explorer.solana.com/address/HN2SRai9T3z7Rsw2avdz7Ns5tewqHctg9JeTeiSU6jTW?cluster=devnet) |
 | Anchor Profile | [EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP](https://explorer.solana.com/address/EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP?cluster=devnet) |
 | Mint TMR | [Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31](https://explorer.solana.com/address/Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31?cluster=devnet) |
+| Anchor Vault — неделя 8 | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
 
-Адреса, supply и результаты демонстраций зафиксированы в исходных отчётах.
+Результаты предыдущих работ зафиксированы в исходных отчётах.
+Аккаунты и транзакции недели 8 — в [README vault](vault/README.md#devnet-и-explorer)
+и [снимке проверки Devnet](vault/deployment.json).
 Состояние аккаунтов и доступность истории Devnet могут измениться.
 
 ## Проверки перед публикацией
@@ -229,6 +232,9 @@ Devnet. Собственный кошелёк позволяет вызвать 
 - Проверка идентичности шести опубликованных отчётов исходным документам.
 - Для недели 8: сборка SBF `vault`, **8 тестов LiteSVM**, генерация IDL
   и полный сценарий нового JavaScript-клиента на локальном валидаторе.
+- Деплой недели 8 в Devnet, создание vault и позиций двух пользователей,
+  проверка владельцев и PDA authority через RPC; опубликованный байткод
+  побайтно совпадает с проверенной сборкой.
 
 Повторная сборка SBF и тесты Counter/Profile в LiteSVM при подготовке
 этой публикации не выполнялись.

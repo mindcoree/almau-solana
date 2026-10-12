@@ -11,8 +11,9 @@ Anchor-программа создаёт настройки vault, новый sh
 на rent аккаунтов и комиссии транзакций. Пополнение, выпуск квитанций при
 депозите и вывод токенов относятся к дальнейшему развитию vault.
 
-**Статус Devnet:** сборка и локальные проверки выполнены; деплой ожидает
-пополнения кошелька администратора тестовыми SOL.
+**Статус Devnet:** программа опубликована 12 октября 2026 года; созданы
+vault, share-mint, хранилище TMR и позиции двух пользователей.
+Адреса и подтверждённые транзакции — в разделе [Devnet и Explorer](#devnet-и-explorer).
 
 ## Связь с предыдущими неделями
 
@@ -83,7 +84,7 @@ mint. Повторное создание той же пары отклоняе�
 | Только программа выпускает share-токен | `mint::authority = vault`; приватного ключа этой authority нет |
 | Программа распоряжается хранилищем | `token::authority = vault`; прав кошелька администратора нет |
 | Карточка пользователя по его адресу | `open_position`: PDA из vault и подписавшего пользователя |
-| Деплой и аккаунты в Devnet | Подготовлены программа и клиент; требуется пополнение для деплоя |
+| Деплой и аккаунты в Devnet | Программа опубликована; vault, share-mint, хранилище и две позиции созданы и проверены через RPC |
 | Короткая защита | Ответы на контрольные вопросы приведены ниже |
 
 Исходники инструкций и структур: [programs/vault/src/lib.rs](programs/vault/src/lib.rs).
@@ -131,6 +132,11 @@ JavaScript-клиент дополнительно проверен на лок�
 TMR из Devnet: создание vault, открытие позиций двух пользователей,
 повторный запуск `demo` и просмотр без кошелька через `show`.
 
+После деплоя выполнены `demo`, открытие второй позиции и `show` в Devnet.
+Через RPC проверены владельцы данных, seeds и bump PDA, authority токеновых
+аккаунтов, нулевые балансы и успешность всех четырёх транзакций.
+Опубликованный SBF-байткод побайтно совпадает с проверенной сборкой.
+
 ## Клиент и воспроизведение
 
 Просмотр опубликованного vault не требует приватного ключа:
@@ -141,8 +147,6 @@ npm ci
 node vault.mjs show
 node vault.mjs show АДРЕС_ПОЛЬЗОВАТЕЛЯ
 ```
-
-До деплоя и создания аккаунтов команда `show` сообщит, что vault не создан.
 
 Для создания своего vault в опубликованной программе создайте кошелёк
 в игнорируемой папке `vault/keys/` и пополните его Devnet SOL:
@@ -189,7 +193,7 @@ solana-keygen new --outfile keys/buffer-keypair.json
 solana program deploy target/deploy/vault.so \
   --program-id keys/vault-keypair.json \
   --buffer keys/buffer-keypair.json \
-  --keypair keys/wallet.json --url devnet --use-rpc
+  --keypair keys/wallet.json --url devnet --use-tpu-client
 ```
 
 Для деплоя нужны Devnet SOL на rent байткода и комиссии; временный buffer
@@ -199,11 +203,36 @@ solana program deploy target/deploy/vault.so \
 
 ## Devnet и Explorer
 
-Подготовленный Program ID:
-`J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN`.
-Существующий принимаемый mint:
-[TMR](https://explorer.solana.com/address/Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31?cluster=devnet).
-Ссылки на созданные аккаунты и транзакции добавляются после успешного деплоя.
+Программа развёрнута 12 октября 2026 года в слоте **510295509**.
+Все ссылки ниже открывают Solana Devnet.
+
+| Объект | Адрес в Explorer |
+|---|---|
+| Программа vault | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
+| ProgramData с байткодом | [CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw](https://explorer.solana.com/address/CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw?cluster=devnet) |
+| Администратор / upgrade authority | [8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi](https://explorer.solana.com/address/8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi?cluster=devnet) |
+| Принимаемый mint TMR из недели 7 | [Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31](https://explorer.solana.com/address/Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31?cluster=devnet) |
+| Настройки `VaultConfig` | [FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35](https://explorer.solana.com/address/FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35?cluster=devnet) |
+| Share-mint | [EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6](https://explorer.solana.com/address/EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6?cluster=devnet) |
+| Хранилище TMR | [4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr](https://explorer.solana.com/address/4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr?cluster=devnet) |
+| Позиция администратора | [EeLZf5W1GJ5Q5UW6nxYmxb4h7d2W2r2D2m2ZaN5DNzGw](https://explorer.solana.com/address/EeLZf5W1GJ5Q5UW6nxYmxb4h7d2W2r2D2m2ZaN5DNzGw?cluster=devnet) |
+| Позиция второго пользователя `96CkS5…QxTBj1` | [EbSfwjZiaRNDup3juLkoqouBmDHaDdWWjsnsUESU8bSY](https://explorer.solana.com/address/EbSfwjZiaRNDup3juLkoqouBmDHaDdWWjsnsUESU8bSY?cluster=devnet) |
+
+| Действие | Подтверждённая транзакция |
+|---|---|
+| Деплой программы | [Открыть в Explorer](https://explorer.solana.com/tx/66w5Ad6tsN8FmgUan8hQp6KXfuCfBWHghUZPmbePEdQvnuBNrY4fba4itomzXVatN5ACpMj5pqqxTHJ8JfkP6XbS?cluster=devnet) |
+| `create_vault` | [Открыть в Explorer](https://explorer.solana.com/tx/M4vEzSKtTegytLENsSeazGxftSkjsTdQX4e6oT4vE6piibcGTLSi64efkLQnVpqdGXwPPGkLaEVfkfB5MBFjDfA?cluster=devnet) |
+| `open_position` администратора | [Открыть в Explorer](https://explorer.solana.com/tx/2DEvtG7BADfuov69e6C5KaBha4gyagADDvSqWWLCpJL1PbWnFZYKuZZXdWB5wvWtMgtZnrCgAziJDQFqpGmmxX8c?cluster=devnet) |
+| `open_position` второго пользователя | [Открыть в Explorer](https://explorer.solana.com/tx/4JCME29BwLw551xhcwg4HuukdK3tfyZXaDguL4VeuX85Bqf6AE55SWEGSGBSJrQyCiKBihpt3NgGvm7ABZ3PZKpt?cluster=devnet) |
+
+Все четыре транзакции имеют статус `finalized` и завершились без ошибок.
+`total_deposited`, supply share-токена, баланс хранилища, удержанная комиссия
+и вклады обеих позиций равны **0**. Временный буфер деплоя закрыт.
+
+Публичный снимок проверки: [deployment.json](deployment.json).
+Он содержит адреса, владельцев, authority, bump, слоты, транзакции
+и SHA-256 байткода размером 198 384 байта. Состояние зафиксировано
+12 октября 2026 года; текущее состояние можно проверить командой `show`.
 
 У принимаемого TMR есть комиссия за перевод. При будущем добавлении депозитов
 нужно учитывать реально полученное хранилищем количество и удержанную комиссию;
