@@ -1,0 +1,13 @@
+{
+  "name": "profile-client",
+  "private": true,
+  "type": "module",
+  "description": "Клиент программы профилей в Devnet: node profile.mjs",
+  "scripts": {
+    "demo": "node profile.mjs",
+    "list": "node profile.mjs list"
+  },
+  "dependencies": {
+    "@anchor-lang/core": "^1.2.0"
+  }
+}

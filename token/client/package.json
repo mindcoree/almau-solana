@@ -1,0 +1,15 @@
+{
+  "name": "tmr-token-client",
+  "private": true,
+  "type": "module",
+  "description": "Токен TMR на Token-2022 в Devnet: node token.mjs",
+  "scripts": {
+    "demo": "node token.mjs",
+    "info": "node token.mjs info"
+  },
+  "dependencies": {
+    "@solana/spl-token": "^0.4.15",
+    "@solana/spl-token-metadata": "^0.1.6",
+    "@solana/web3.js": "^1.98.0"
+  }
+}

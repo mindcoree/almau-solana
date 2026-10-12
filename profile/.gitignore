@@ -1,0 +1,5 @@
+/target
+/client/node_modules
+# Ключи кошелька и программы — не в репозиторий (даже для Devnet).
+/keys
+.DS_Store

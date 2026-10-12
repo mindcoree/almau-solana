@@ -1,0 +1,13 @@
+{
+  "name": "piggy-vault-client",
+  "private": true,
+  "type": "module",
+  "description": "Вызвать программу-копилку в Devnet: node demo.mjs",
+  "scripts": {
+    "demo": "node demo.mjs",
+    "close": "node demo.mjs --close"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0"
+  }
+}

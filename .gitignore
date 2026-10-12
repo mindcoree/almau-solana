@@ -1,0 +1,27 @@
+# Build outputs and installed dependencies (including nested projects).
+target/
+node_modules/
+
+# Private Solana keys and local Piggy state.
+keys/
+wallets/
+ledger.json
+*-keypair.json
+.env
+.env.*
+!.env.example
+
+# Original local archives duplicate the source and may contain private keys.
+archives/
+*.zip
+
+# Operating system and editor files.
+.DS_Store
+._*
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
+~$*
+*.tmp
+*.log

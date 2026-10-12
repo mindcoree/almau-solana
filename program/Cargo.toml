@@ -1,0 +1,38 @@
+[package]
+name = "piggy-vault"
+version = "0.1.0"
+authors = ["Медиханов Тимур"]
+edition = "2021"
+description = "Копилка piggy (неделя 3) как настоящая нативная Solana-программа, задеплоенная в Devnet"
+license = "MIT"
+publish = false
+
+[lib]
+# cdylib — байткод SBF для сети (`cargo build-sbf`), lib — чтобы гонять тесты обычным `cargo test`.
+crate-type = ["cdylib", "lib"]
+
+[features]
+# Подключить программу как библиотеку (клиент, тесты) без её точки входа.
+no-entrypoint = []
+
+[lints.rust]
+# `entrypoint!` проверяет эти cfg — без объявления компилятор предупреждает о них.
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))', 'cfg(feature, values("custom-heap", "custom-panic"))'] }
+
+[dependencies]
+# Те же крейты, что в таблице «Как это соотносится с настоящим SDK» в README piggy.
+borsh = { version = "1.5", features = ["derive"] }
+solana-account-info = "3"
+solana-cpi = "3"
+solana-instruction = { version = "3", features = ["borsh"] }
+solana-msg = "3"
+solana-program-entrypoint = "3"
+solana-program-error = "3"
+solana-pubkey = { version = "4", features = ["borsh", "curve25519"] }
+solana-rent = "4"
+solana-sysvar = "5"
+solana-system-interface = { version = "3", features = ["bincode"] }
+thiserror = "2"
+
+[dev-dependencies]
+sha2 = "0.10"

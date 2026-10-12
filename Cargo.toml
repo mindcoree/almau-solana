@@ -1,0 +1,32 @@
+[package]
+name = "piggy"
+version = "0.1.0"
+authors = ["Медиханов Тимур"]
+edition = "2024"
+rust-version = "1.85"
+description = "Учебная CLI-копилка на Rust по модели Solana: Pubkey и PDA, AccountInfo, Borsh, CPI, ошибки программы"
+license = "MIT"
+publish = false
+
+[dependencies]
+# Ошибки: thiserror — для типизированных ошибок (как в программах), anyhow — для CLI.
+anyhow = "1"
+thiserror = "2"
+# Borsh — основной формат данных on-chain (аккаунты и инструкции).
+borsh = { version = "1.5", features = ["derive"] }
+# Криптография: base58-адреса, SHA-256 для PDA, кривая ed25519 для ключей и подписей.
+bs58 = "0.5"
+sha2 = "0.11"
+curve25519-dalek = "5"
+ed25519-dalek = "3"
+getrandom = "0.4"
+# Интерфейс командной строки.
+clap = { version = "4.5", features = ["derive", "env"] }
+# Off-chain хранение: «блокчейн» и кошельки лежат в JSON-файлах.
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+hex = { version = "0.4", features = ["serde"] }
+
+[profile.release]
+# Как в шаблонах Solana-программ: переполнение целых — паника, а не тихий «wrap».
+overflow-checks = true

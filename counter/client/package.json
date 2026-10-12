@@ -1,0 +1,13 @@
+{
+  "name": "counter-client",
+  "private": true,
+  "type": "module",
+  "description": "Клиент Counter Program в Devnet: node counter.mjs",
+  "scripts": {
+    "demo": "node counter.mjs",
+    "show": "node counter.mjs show"
+  },
+  "dependencies": {
+    "@anchor-lang/core": "^1.2.0"
+  }
+}

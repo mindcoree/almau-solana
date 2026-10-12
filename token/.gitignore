@@ -1,0 +1,4 @@
+/client/node_modules
+# Ключи кошельков и токена — не в репозиторий (даже для Devnet).
+/keys
+.DS_Store
