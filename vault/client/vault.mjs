@@ -26,7 +26,10 @@ const vault = pda(Buffer.from('vault'), admin.toBuffer(), assetMint.toBuffer());
 const shareMint = pda(Buffer.from('share_mint'), vault.toBuffer());
 const tokenVault = pda(Buffer.from('token_vault'), vault.toBuffer());
 const position = pda(Buffer.from('position'), vault.toBuffer(), user.toBuffer());
-const explorer = (kind, address) => `https://explorer.solana.com/${kind}/${address}?cluster=devnet`;
+const explorerCluster = connection.rpcEndpoint === web3.clusterApiUrl('devnet')
+  ? 'cluster=devnet'
+  : `cluster=custom&customUrl=${encodeURIComponent(connection.rpcEndpoint)}`;
+const explorer = (kind, address) => `https://explorer.solana.com/${kind}/${address}?${explorerCluster}`;
 
 const assetInfo = await connection.getAccountInfo(assetMint);
 assert(assetInfo, 'Принимаемый mint не найден');
