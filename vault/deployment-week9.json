@@ -1,0 +1,104 @@
+{
+  "cluster": "devnet",
+  "verifiedAt": "2026-10-22T10:48:27.584Z",
+  "verifiedAtSlot": 513859297,
+  "program": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+  "programData": "CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw",
+  "upgradeAuthority": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+  "deployedSlot": 513857769,
+  "bytecodeSize": 252544,
+  "allocatedBytecodeSize": 252544,
+  "bytecodeSha256": "8a99861de837bdf075c5d90d9f81f7a620a31d8b91703015b5f5448bfb4e2428",
+  "idlMetadata": "EMvd2dZp8zgCJKXYBYxYzTUULBnB4W6FJ8KS88xAf5XX",
+  "idlMatchesGenerated": true,
+  "assetMint": "Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31",
+  "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+  "accounts": {
+    "vault": {
+      "address": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+      "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+      "dataSize": 145
+    },
+    "shareMint": {
+      "address": "EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 82
+    },
+    "tokenVault": {
+      "address": "4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 178
+    },
+    "position": {
+      "address": "EeLZf5W1GJ5Q5UW6nxYmxb4h7d2W2r2D2m2ZaN5DNzGw",
+      "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+      "dataSize": 81
+    },
+    "otherPosition": {
+      "address": "EbSfwjZiaRNDup3juLkoqouBmDHaDdWWjsnsUESU8bSY",
+      "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+      "dataSize": 81
+    },
+    "userShares": {
+      "address": "JD27x8Cm42ju7vBHTAFsNJVqMy5epC7Zj6ktzHP36jYJ",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 170
+    },
+    "programData": {
+      "address": "CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw",
+      "owner": "BPFLoaderUpgradeab1e11111111111111111111111",
+      "dataSize": 252589
+    }
+  },
+  "totalDeposited": "148500000",
+  "positionDeposited": "148500000",
+  "otherPositionDeposited": "0",
+  "shareSupply": "148500000",
+  "userShares": "148500000",
+  "storageAmount": "148500000",
+  "storageWithheldAmount": "1500000",
+  "deposits": [
+    {
+      "sent": "100000000",
+      "received": "99000000",
+      "shares": "99000000"
+    },
+    {
+      "sent": "50000000",
+      "received": "49500000",
+      "shares": "49500000"
+    }
+  ],
+  "transactions": {
+    "upgrade": {
+      "signature": "epvuewZpkcCKgVWhv3AKfLGDDvgvAwovANzsvrCyjWS3sGcjW7NqVaRp59aeQE9RGx1yp64Qu2EQmgRcGV4jJ5x",
+      "slot": 513857769,
+      "confirmationStatus": "finalized",
+      "explorer": "https://explorer.solana.com/tx/epvuewZpkcCKgVWhv3AKfLGDDvgvAwovANzsvrCyjWS3sGcjW7NqVaRp59aeQE9RGx1yp64Qu2EQmgRcGV4jJ5x?cluster=devnet"
+    },
+    "deposit100Tmr": {
+      "signature": "nef6HbQdLqXLJv7zfQAG994WhECBBMdhP9mAQp4ZE9672L36rTNQEnCWMn3gXKZTzH8aH8ckq1cFRpnwpMAG37z",
+      "slot": 513858153,
+      "confirmationStatus": "finalized",
+      "explorer": "https://explorer.solana.com/tx/nef6HbQdLqXLJv7zfQAG994WhECBBMdhP9mAQp4ZE9672L36rTNQEnCWMn3gXKZTzH8aH8ckq1cFRpnwpMAG37z?cluster=devnet"
+    },
+    "deposit50Tmr": {
+      "signature": "Ssha4ABzFMKi9tKQ1rP8XLt2AVPke8FCdHaf7qH5i1LrxZWsToapWFk7j2VRSzoq3rBHLsmKjBKHUzNp2nkhajK",
+      "slot": 513858167,
+      "confirmationStatus": "finalized",
+      "explorer": "https://explorer.solana.com/tx/Ssha4ABzFMKi9tKQ1rP8XLt2AVPke8FCdHaf7qH5i1LrxZWsToapWFk7j2VRSzoq3rBHLsmKjBKHUzNp2nkhajK?cluster=devnet"
+    }
+  },
+  "depositInnerInstructions": [
+    {
+      "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "type": "transferChecked"
+    },
+    {
+      "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "type": "mintTo"
+    }
+  ],
+  "reusedWeek8Accounts": true,
+  "accountMigrationRequired": false
+}

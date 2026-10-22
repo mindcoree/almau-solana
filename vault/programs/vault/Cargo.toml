@@ -1,7 +1,7 @@
 [package]
 name = "vault"
 version = "0.1.0"
-description = "Неделя 8 — каркас токенового vault с PDA authority"
+description = "Недели 8–9 — токеновый vault, депозит и shares с PDA authority"
 authors = ["Медиханов Тимур"]
 edition = "2021"
 

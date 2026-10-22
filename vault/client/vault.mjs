@@ -1,13 +1,22 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { AnchorProvider, Program, Wallet, web3 } from '@anchor-lang/core';
-import { getAccount, getMint, TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID } from '@solana/spl-token';
+import { AnchorProvider, BN, Program, Wallet, web3 } from '@anchor-lang/core';
+import {
+  getAccount, getMint, getAssociatedTokenAddress, getOrCreateAssociatedTokenAccount,
+  getTransferFeeAmount, TOKEN_PROGRAM_ID, TOKEN_2022_PROGRAM_ID,
+} from '@solana/spl-token';
 
 const here = new URL('.', import.meta.url);
 const idl = JSON.parse(readFileSync(new URL('../idl/vault.json', here)));
 const connection = new web3.Connection(process.env.RPC_URL ?? web3.clusterApiUrl('devnet'), 'confirmed');
-const [command = 'demo', userAddress] = process.argv.slice(2);
-assert(['demo', 'open', 'show'].includes(command), 'Команды: demo, open, show [адрес пользователя]');
+const [command = 'demo', argument] = process.argv.slice(2);
+assert(['demo', 'open', 'show', 'deposit'].includes(command), 'Команды: demo, open, show [адрес], deposit <сумма в минимальных единицах>');
+let amount;
+if (command === 'deposit') {
+  assert(/^\d+$/.test(argument ?? ''), 'Укажите целую сумму в минимальных единицах токена');
+  amount = BigInt(argument);
+  assert(amount > 0n && amount <= 0xffffffffffffffffn, 'Сумма должна быть положительным u64');
+}
 
 const signer = command === 'show' ? null : web3.Keypair.fromSecretKey(
   Uint8Array.from(JSON.parse(readFileSync(process.env.WALLET ?? new URL('../keys/wallet.json', here)))),
@@ -20,7 +29,7 @@ const assetMint = new web3.PublicKey(process.env.ASSET_MINT ?? 'Cq9bsK12BiRunwpB
 const admin = new web3.PublicKey(process.env.ADMIN ?? (
   command === 'demo' ? signer.publicKey : '8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi'
 ));
-const user = new web3.PublicKey(userAddress ?? signer?.publicKey ?? admin);
+const user = new web3.PublicKey((command === 'show' ? argument : undefined) ?? signer?.publicKey ?? admin);
 const pda = (...seeds) => web3.PublicKey.findProgramAddressSync(seeds, program.programId)[0];
 const vault = pda(Buffer.from('vault'), admin.toBuffer(), assetMint.toBuffer());
 const shareMint = pda(Buffer.from('share_mint'), vault.toBuffer());
@@ -58,6 +67,23 @@ if (signer && !userPosition) {
   userPosition = await program.account.userPosition.fetch(position);
 }
 
+if (command === 'deposit') {
+  const userTokenAccount = await getAssociatedTokenAddress(assetMint, user, false, tokenProgram);
+  const source = await getAccount(connection, userTokenAccount, 'confirmed', tokenProgram);
+  assert(source.amount >= amount, 'Недостаточно принимаемых токенов на кошельке');
+  const userShareAccount = (await getOrCreateAssociatedTokenAccount(
+    connection, signer, shareMint, user, false, 'confirmed', undefined, tokenProgram,
+  )).address;
+  const signature = await program.methods.deposit(new BN(amount.toString())).accountsStrict({
+    user, vault, position, assetMint, shareMint, tokenVault,
+    userTokenAccount, userShareAccount, tokenProgram,
+  }).rpc();
+  console.log('deposit', explorer('tx', signature));
+  config = await program.account.vaultConfig.fetch(vault);
+  userPosition = await program.account.userPosition.fetch(position);
+  console.log('user_shares', (await getAccount(connection, userShareAccount, 'confirmed', tokenProgram)).amount.toString());
+}
+
 const mint = await getMint(connection, shareMint, 'confirmed', tokenProgram);
 const storage = await getAccount(connection, tokenVault, 'confirmed', tokenProgram);
 assert(config.admin.equals(admin));
@@ -81,5 +107,6 @@ for (const [name, address] of Object.entries({ program: program.programId, admin
 console.log('total_deposited', config.totalDeposited.toString());
 console.log('share_supply', mint.supply.toString());
 console.log('storage_amount', storage.amount.toString());
+console.log('storage_withheld', (getTransferFeeAmount(storage)?.withheldAmount ?? 0n).toString());
 console.log('position_deposited', userPosition?.depositedAmount.toString() ?? 'позиция ещё не открыта');
 console.log('Проверено: authority share-mint и хранилища — PDA vault.');
