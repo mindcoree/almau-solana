@@ -4,7 +4,7 @@
     "name": "vault",
     "version": "0.1.0",
     "spec": "0.1.0",
-    "description": "Недели 8–9 — токеновый vault, депозит и shares с PDA authority"
+    "description": "Недели 8–10 — токеновый vault, депозит, shares и вывод через CPI"
   },
   "instructions": [
     {
@@ -371,6 +371,172 @@
         }
       ],
       "args": []
+    },
+    {
+      "name": "withdraw",
+      "docs": [
+        "Сжечь shares пользователя и вернуть их долю доступных активов vault."
+      ],
+      "discriminator": [
+        183,
+        18,
+        70,
+        156,
+        148,
+        109,
+        161,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "signer": true
+        },
+        {
+          "name": "vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "vault.admin",
+                "account": "VaultConfig"
+              },
+              {
+                "kind": "account",
+                "path": "vault.asset_mint",
+                "account": "VaultConfig"
+              }
+            ]
+          },
+          "relations": [
+            "position"
+          ]
+        },
+        {
+          "name": "position",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  112,
+                  111,
+                  115,
+                  105,
+                  116,
+                  105,
+                  111,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "vault"
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              }
+            ]
+          }
+        },
+        {
+          "name": "asset_mint",
+          "relations": [
+            "vault"
+          ]
+        },
+        {
+          "name": "share_mint",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  115,
+                  104,
+                  97,
+                  114,
+                  101,
+                  95,
+                  109,
+                  105,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "vault"
+              }
+            ]
+          },
+          "relations": [
+            "vault"
+          ]
+        },
+        {
+          "name": "token_vault",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  116,
+                  111,
+                  107,
+                  101,
+                  110,
+                  95,
+                  118,
+                  97,
+                  117,
+                  108,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "vault"
+              }
+            ]
+          },
+          "relations": [
+            "vault"
+          ]
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "user_share_account",
+          "writable": true
+        },
+        {
+          "name": "token_program"
+        }
+      ],
+      "args": [
+        {
+          "name": "shares",
+          "type": "u64"
+        }
+      ]
     }
   ],
   "accounts": [
@@ -405,12 +571,12 @@
     {
       "code": 6000,
       "name": "ZeroAmount",
-      "msg": "Deposit must be greater than zero"
+      "msg": "Amount must be greater than zero"
     },
     {
       "code": 6001,
       "name": "NothingReceived",
-      "msg": "Deposit received no spendable tokens"
+      "msg": "Transfer received no spendable tokens"
     },
     {
       "code": 6002,
@@ -431,6 +597,16 @@
       "code": 6005,
       "name": "Unauthorized",
       "msg": "Position must belong to the signer"
+    },
+    {
+      "code": 6006,
+      "name": "InsufficientShares",
+      "msg": "Not enough shares in the user's token account"
+    },
+    {
+      "code": 6007,
+      "name": "WithdrawTooSmall",
+      "msg": "Withdrawal is too small to receive an asset"
     }
   ],
   "types": [

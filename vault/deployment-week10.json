@@ -1,0 +1,235 @@
+{
+  "cluster": "devnet",
+  "verifiedAt": "2026-10-23T21:35:14.754Z",
+  "verifiedAtSlot": 514383732,
+  "stateCommitment": "finalized",
+  "program": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+  "programData": "CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw",
+  "upgradeAuthority": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+  "deployedSlot": 514382805,
+  "bytecodeSize": 262688,
+  "allocatedBytecodeSize": 262784,
+  "bytecodeSha256": "1bb438e1d4771831e36ab8f7697341b00d69c6ce2664c56a2fd8347012982fa4",
+  "unusedBytecodePadding": 96,
+  "unusedBytecodePaddingIsZero": true,
+  "idlMetadata": "EMvd2dZp8zgCJKXYBYxYzTUULBnB4W6FJ8KS88xAf5XX",
+  "idlMatchesGenerated": true,
+  "assetMint": "Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31",
+  "tokenProgram": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+  "accounts": {
+    "vault": {
+      "address": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+      "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+      "dataSize": 145
+    },
+    "shareMint": {
+      "address": "EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 82
+    },
+    "tokenVault": {
+      "address": "4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 178
+    },
+    "position": {
+      "address": "EeLZf5W1GJ5Q5UW6nxYmxb4h7d2W2r2D2m2ZaN5DNzGw",
+      "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+      "dataSize": 81
+    },
+    "otherPosition": {
+      "address": "EbSfwjZiaRNDup3juLkoqouBmDHaDdWWjsnsUESU8bSY",
+      "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+      "dataSize": 81
+    },
+    "programData": {
+      "address": "CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw",
+      "owner": "BPFLoaderUpgradeab1e11111111111111111111111",
+      "dataSize": 262829
+    },
+    "userTokens": {
+      "address": "4fhFBdWgoS61Ldv7VDkbmjD3mJyY5A5kok6aB6MWc82k",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 182
+    },
+    "userShares": {
+      "address": "JD27x8Cm42ju7vBHTAFsNJVqMy5epC7Zj6ktzHP36jYJ",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 170
+    },
+    "assetMint": {
+      "address": "Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31",
+      "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+      "dataSize": 523
+    }
+  },
+  "mintAuthority": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+  "storageAuthority": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+  "before": {
+    "totalDeposited": "148500000",
+    "positionDeposited": "148500000",
+    "otherPositionDeposited": "0",
+    "shareSupply": "148500000",
+    "userShares": "148500000",
+    "storageAmount": "148500000",
+    "storageWithheldAmount": "1500000",
+    "userTokenAmount": "976000000000",
+    "userWithheldAmount": "0"
+  },
+  "totalDeposited": "0",
+  "positionDeposited": "148500000",
+  "otherPositionDeposited": "0",
+  "shareSupply": "0",
+  "userShares": "0",
+  "storageAmount": "0",
+  "storageWithheldAmount": "1500000",
+  "userTokenAmount": "976147015000",
+  "userWithheldAmount": "1485000",
+  "positionAccounting": "Cumulative net contributions; withdrawals are authorized by share balance, not deposited_amount.",
+  "withdrawals": [
+    {
+      "shares": "10000000",
+      "grossAssets": "10000000",
+      "receivedAssets": "9900000",
+      "fee": "100000",
+      "after": {
+        "totalDeposited": "138500000",
+        "positionDeposited": "148500000",
+        "otherPositionDeposited": "0",
+        "shareSupply": "138500000",
+        "userShares": "138500000",
+        "storageAmount": "138500000",
+        "storageWithheldAmount": "1500000",
+        "userTokenAmount": "976009900000",
+        "userWithheldAmount": "100000"
+      },
+      "signature": "5uCo4vsdHCycgpJmBCzURHQJkxeQBCPEbmnVphy2i2dMxV5dtEpWJ73sebQPKKAAb4Ca5cDYP2krHECTtP535BZf"
+    },
+    {
+      "shares": "138500000",
+      "grossAssets": "138500000",
+      "receivedAssets": "137115000",
+      "fee": "1385000",
+      "after": {
+        "totalDeposited": "0",
+        "positionDeposited": "148500000",
+        "otherPositionDeposited": "0",
+        "shareSupply": "0",
+        "userShares": "0",
+        "storageAmount": "0",
+        "storageWithheldAmount": "1500000",
+        "userTokenAmount": "976147015000",
+        "userWithheldAmount": "1485000"
+      },
+      "signature": "3gwbPPiv54NPoj7pLMhb1VPXMQruEtMGuDe71LpFHeviEhU4vtqyNXWQnqXEZm4jbqo5F7AKDKcT7sgq6RQqR5Ss"
+    }
+  ],
+  "transactions": {
+    "upgrade": {
+      "signature": "5vn3YVBFFyGthXH42M3CphrYdUzeK5nSHFxjBQ8txvhvkYtc6srK4hyYHVSrm4uC4aZVJ22GwQvxaEPb2uoysBmR",
+      "slot": 514382805,
+      "confirmationStatus": "finalized",
+      "err": null,
+      "explorer": "https://explorer.solana.com/tx/5vn3YVBFFyGthXH42M3CphrYdUzeK5nSHFxjBQ8txvhvkYtc6srK4hyYHVSrm4uC4aZVJ22GwQvxaEPb2uoysBmR?cluster=devnet"
+    },
+    "withdrawPartial": {
+      "signature": "5uCo4vsdHCycgpJmBCzURHQJkxeQBCPEbmnVphy2i2dMxV5dtEpWJ73sebQPKKAAb4Ca5cDYP2krHECTtP535BZf",
+      "slot": 514383206,
+      "confirmationStatus": "finalized",
+      "err": null,
+      "explorer": "https://explorer.solana.com/tx/5uCo4vsdHCycgpJmBCzURHQJkxeQBCPEbmnVphy2i2dMxV5dtEpWJ73sebQPKKAAb4Ca5cDYP2krHECTtP535BZf?cluster=devnet",
+      "innerInstructions": [
+        {
+          "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "type": "burn",
+          "info": {
+            "account": "JD27x8Cm42ju7vBHTAFsNJVqMy5epC7Zj6ktzHP36jYJ",
+            "amount": "10000000",
+            "authority": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+            "mint": "EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6"
+          }
+        },
+        {
+          "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "type": "transferChecked",
+          "info": {
+            "authority": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+            "destination": "4fhFBdWgoS61Ldv7VDkbmjD3mJyY5A5kok6aB6MWc82k",
+            "mint": "Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31",
+            "source": "4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr",
+            "tokenAmount": {
+              "amount": "10000000",
+              "decimals": 6,
+              "uiAmount": 10,
+              "uiAmountString": "10"
+            }
+          }
+        }
+      ]
+    },
+    "withdrawRemaining": {
+      "signature": "3gwbPPiv54NPoj7pLMhb1VPXMQruEtMGuDe71LpFHeviEhU4vtqyNXWQnqXEZm4jbqo5F7AKDKcT7sgq6RQqR5Ss",
+      "slot": 514383224,
+      "confirmationStatus": "finalized",
+      "err": null,
+      "explorer": "https://explorer.solana.com/tx/3gwbPPiv54NPoj7pLMhb1VPXMQruEtMGuDe71LpFHeviEhU4vtqyNXWQnqXEZm4jbqo5F7AKDKcT7sgq6RQqR5Ss?cluster=devnet",
+      "innerInstructions": [
+        {
+          "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "type": "burn",
+          "info": {
+            "account": "JD27x8Cm42ju7vBHTAFsNJVqMy5epC7Zj6ktzHP36jYJ",
+            "amount": "138500000",
+            "authority": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+            "mint": "EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6"
+          }
+        },
+        {
+          "program": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+          "type": "transferChecked",
+          "info": {
+            "authority": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+            "destination": "4fhFBdWgoS61Ldv7VDkbmjD3mJyY5A5kok6aB6MWc82k",
+            "mint": "Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31",
+            "source": "4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr",
+            "tokenAmount": {
+              "amount": "138500000",
+              "decimals": 6,
+              "uiAmount": 138.5,
+              "uiAmountString": "138.5"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "rejectedSimulations": [
+    {
+      "shares": "0",
+      "error": "ZeroAmount",
+      "code": 6000
+    },
+    {
+      "shares": "1",
+      "error": "InsufficientShares",
+      "code": 6006
+    }
+  ],
+  "verification": {
+    "liteSvmTestsPassed": 21,
+    "invalidCliArgumentsRejected": 10,
+    "localValidatorScenario": [
+      "demo",
+      "deposit 100000000",
+      "withdraw 10000000",
+      "withdraw 89000000",
+      "deposit 50000000",
+      "show"
+    ],
+    "readOnlyShowWithoutWallet": true,
+    "instructionAbiAndAccountLayoutsPreserved": true
+  },
+  "reusedWeek8And9Accounts": true,
+  "accountMigrationRequired": false,
+  "deploymentBufferClosed": true
+}

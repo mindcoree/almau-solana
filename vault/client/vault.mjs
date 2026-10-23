@@ -10,9 +10,9 @@ const here = new URL('.', import.meta.url);
 const idl = JSON.parse(readFileSync(new URL('../idl/vault.json', here)));
 const connection = new web3.Connection(process.env.RPC_URL ?? web3.clusterApiUrl('devnet'), 'confirmed');
 const [command = 'demo', argument] = process.argv.slice(2);
-assert(['demo', 'open', 'show', 'deposit'].includes(command), 'Команды: demo, open, show [адрес], deposit <сумма в минимальных единицах>');
+assert(['demo', 'open', 'show', 'deposit', 'withdraw'].includes(command), 'Команды: demo, open, show [адрес], deposit <единицы токена>, withdraw <единицы shares>');
 let amount;
-if (command === 'deposit') {
+if (command === 'deposit' || command === 'withdraw') {
   assert(/^\d+$/.test(argument ?? ''), 'Укажите целую сумму в минимальных единицах токена');
   amount = BigInt(argument);
   assert(amount > 0n && amount <= 0xffffffffffffffffn, 'Сумма должна быть положительным u64');
@@ -67,18 +67,23 @@ if (signer && !userPosition) {
   userPosition = await program.account.userPosition.fetch(position);
 }
 
-if (command === 'deposit') {
-  const userTokenAccount = await getAssociatedTokenAddress(assetMint, user, false, tokenProgram);
-  const source = await getAccount(connection, userTokenAccount, 'confirmed', tokenProgram);
-  assert(source.amount >= amount, 'Недостаточно принимаемых токенов на кошельке');
-  const userShareAccount = (await getOrCreateAssociatedTokenAccount(
-    connection, signer, shareMint, user, false, 'confirmed', undefined, tokenProgram,
+if (command === 'deposit' || command === 'withdraw') {
+  const depositing = command === 'deposit';
+  const sourceMint = depositing ? assetMint : shareMint;
+  const destinationMint = depositing ? shareMint : assetMint;
+  const sourceAddress = await getAssociatedTokenAddress(sourceMint, user, false, tokenProgram);
+  const source = await getAccount(connection, sourceAddress, 'confirmed', tokenProgram);
+  assert(source.amount >= amount, depositing ? 'Недостаточно принимаемых токенов на кошельке' : 'Недостаточно shares на кошельке');
+  const destinationAddress = (await getOrCreateAssociatedTokenAccount(
+    connection, signer, destinationMint, user, false, 'confirmed', undefined, tokenProgram,
   )).address;
-  const signature = await program.methods.deposit(new BN(amount.toString())).accountsStrict({
+  const userTokenAccount = depositing ? sourceAddress : destinationAddress;
+  const userShareAccount = depositing ? destinationAddress : sourceAddress;
+  const signature = await program.methods[command](new BN(amount.toString())).accountsStrict({
     user, vault, position, assetMint, shareMint, tokenVault,
     userTokenAccount, userShareAccount, tokenProgram,
   }).rpc();
-  console.log('deposit', explorer('tx', signature));
+  console.log(command, explorer('tx', signature));
   config = await program.account.vaultConfig.fetch(vault);
   userPosition = await program.account.userPosition.fetch(position);
   console.log('user_shares', (await getAccount(connection, userShareAccount, 'confirmed', tokenProgram)).amount.toString());

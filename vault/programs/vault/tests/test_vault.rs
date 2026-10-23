@@ -224,7 +224,7 @@ impl Env {
     fn deposit(&self, user: &Address, source: Pubkey, shares: Pubkey, amount: u64) -> Instruction {
         vault_instruction(
             vault_ix::Deposit { amount },
-            accounts::Deposit {
+            accounts::VaultUser {
                 user: key(user),
                 vault: self.vault,
                 position: self.position(user),
@@ -246,6 +246,26 @@ impl Env {
             .amount
     }
 
+    fn withdraw(
+        &self,
+        user: &Address,
+        destination: Pubkey,
+        shares: Pubkey,
+        amount: u64,
+    ) -> Instruction {
+        let mut ix = self.deposit(user, destination, shares, amount);
+        ix.data = vault_ix::Withdraw { shares: amount }.data();
+        ix
+    }
+
+    fn supply(&self) -> u64 {
+        let account = self.svm.get_account(&addr(&self.share_mint)).unwrap();
+        StateWithExtensions::<Mint>::unpack(&account.data)
+            .unwrap()
+            .base
+            .supply
+    }
+
     fn config(&self) -> VaultConfig {
         let account = self.svm.get_account(&addr(&self.vault)).unwrap();
         VaultConfig::try_deserialize(&mut account.data.as_slice()).unwrap()
@@ -264,6 +284,352 @@ impl Env {
             .map(|address| self.svm.get_account(&addr(address)).unwrap().data)
             .collect()
     }
+}
+
+#[test]
+fn partial_and_full_withdrawals_share_profit_round_down_and_allow_a_new_cycle() {
+    for token_program in [anchor_spl::token::ID, anchor_spl::token_2022::ID] {
+        let mut env = Env::new(token_program);
+        env.initialize();
+        let first = env.admin.insecure_clone();
+        let second = Keypair::new();
+        let (tokens_a, shares_a) = env.user(&first, 12);
+        let (tokens_b, shares_b) = env.user(&second, 5);
+        env.send(env.deposit(&first.pubkey(), tokens_a, shares_a, 10), &first)
+            .unwrap();
+        env.send(
+            env.deposit(&second.pubkey(), tokens_b, shares_b, 5),
+            &second,
+        )
+        .unwrap();
+        env.send(
+            convert(
+                instruction::transfer_checked(
+                    &env.token_program,
+                    &tokens_a,
+                    &env.asset_mint,
+                    &env.token_vault,
+                    &key(&first.pubkey()),
+                    &[],
+                    2,
+                    6,
+                )
+                .unwrap(),
+            ),
+            &first,
+        )
+        .unwrap();
+        // 4 * 17 / 15 = 4; затем 6 * 13 / 11 = 7; последнему достаётся остаток 6.
+        for (user, tokens, shares, amount, payout, remaining) in [
+            (&first, tokens_a, shares_a, 4, 4, 13),
+            (&first, tokens_a, shares_a, 6, 7, 6),
+            (&second, tokens_b, shares_b, 5, 6, 0),
+        ] {
+            let before = env.balance(tokens);
+            env.send(env.withdraw(&user.pubkey(), tokens, shares, amount), user)
+                .unwrap();
+            assert_eq!(env.balance(tokens) - before, payout);
+            assert_eq!(env.balance(env.token_vault), remaining);
+            assert_eq!(env.config().total_deposited, remaining);
+        }
+        assert_eq!(env.supply(), 0);
+        assert_eq!(env.balance(shares_a), 0);
+        assert_eq!(env.balance(shares_b), 0);
+        assert_eq!(env.deposited(&first.pubkey()), 10);
+        assert_eq!(env.deposited(&second.pubkey()), 5);
+        env.send(env.deposit(&first.pubkey(), tokens_a, shares_a, 3), &first)
+            .unwrap();
+        assert_eq!(env.supply(), 3);
+        assert_eq!(env.balance(env.token_vault), 3);
+    }
+}
+
+#[test]
+fn received_shares_can_be_redeemed_without_a_personal_deposit() {
+    for token_program in [anchor_spl::token::ID, anchor_spl::token_2022::ID] {
+        let mut env = Env::new(token_program);
+        env.initialize();
+        let owner = env.admin.insecure_clone();
+        let recipient = Keypair::new();
+        let (tokens_a, shares_a) = env.user(&owner, 100);
+        let (tokens_b, shares_b) = env.user(&recipient, 0);
+        env.send(
+            env.deposit(&owner.pubkey(), tokens_a, shares_a, 100),
+            &owner,
+        )
+        .unwrap();
+        env.send(
+            convert(
+                instruction::transfer_checked(
+                    &env.token_program,
+                    &shares_a,
+                    &env.share_mint,
+                    &shares_b,
+                    &key(&owner.pubkey()),
+                    &[],
+                    40,
+                    6,
+                )
+                .unwrap(),
+            ),
+            &owner,
+        )
+        .unwrap();
+        env.send(
+            env.withdraw(&recipient.pubkey(), tokens_b, shares_b, 40),
+            &recipient,
+        )
+        .unwrap();
+        assert_eq!(env.balance(tokens_b), 40);
+        assert_eq!(env.balance(shares_b), 0);
+        assert_eq!(env.deposited(&recipient.pubkey()), 0);
+        assert_eq!(env.balance(shares_a), 60);
+        assert_eq!(env.supply(), 60);
+        assert_eq!(env.balance(env.token_vault), 60);
+        assert_eq!(env.config().total_deposited, 60);
+    }
+}
+
+#[test]
+fn tmr_withdrawals_exclude_withheld_fees_and_roll_back_a_zero_net_payout() {
+    let mut env = Env::new(anchor_spl::token_2022::ID);
+    let data = include_bytes!("fixtures/tmr-mint.bin").to_vec();
+    let mut mint = env.svm.get_account(&addr(&env.asset_mint)).unwrap();
+    mint.lamports = env.svm.minimum_balance_for_rent_exemption(data.len());
+    mint.data = data;
+    env.svm.set_account(addr(&env.asset_mint), mint).unwrap();
+    env.initialize();
+    let user = env.admin.insecure_clone();
+    let (tokens, shares) = env.user(&user, 200_000_000);
+    env.send(
+        env.deposit(&user.pubkey(), tokens, shares, 100_000_000),
+        &user,
+    )
+    .unwrap();
+    env.send(
+        env.withdraw(&user.pubkey(), tokens, shares, 10_000_000),
+        &user,
+    )
+    .unwrap();
+    assert_eq!(env.balance(tokens), 109_900_000);
+    assert_eq!(env.balance(shares), 89_000_000);
+    assert_eq!(env.supply(), 89_000_000);
+    assert_eq!(env.config().total_deposited, 89_000_000);
+    let accounts = [
+        env.vault,
+        env.position(&user.pubkey()),
+        env.token_vault,
+        env.share_mint,
+        tokens,
+        shares,
+    ];
+    let before = env.snapshot(&accounts);
+    let error = env
+        .send(env.withdraw(&user.pubkey(), tokens, shares, 1), &user)
+        .unwrap_err();
+    assert!(error.contains("NothingReceived"), "{error}");
+    assert_eq!(env.snapshot(&accounts), before);
+    env.send(
+        env.withdraw(&user.pubkey(), tokens, shares, 89_000_000),
+        &user,
+    )
+    .unwrap();
+    assert_eq!(env.balance(tokens), 198_010_000);
+    assert_eq!(env.balance(shares), 0);
+    assert_eq!(env.supply(), 0);
+    assert_eq!(env.balance(env.token_vault), 0);
+    assert_eq!(env.config().total_deposited, 0);
+    for (address, expected) in [(env.token_vault, 1_000_000), (tokens, 990_000)] {
+        let account = env.svm.get_account(&addr(&address)).unwrap();
+        let state = StateWithExtensions::<TokenAccount>::unpack(&account.data).unwrap();
+        assert_eq!(
+            u64::from(
+                state
+                    .get_extension::<TransferFeeAmount>()
+                    .unwrap()
+                    .withheld_amount
+            ),
+            expected
+        );
+    }
+}
+
+#[test]
+fn zero_excess_and_dust_withdrawals_do_not_change_balances() {
+    let mut env = Env::new(anchor_spl::token::ID);
+    env.initialize();
+    let user = env.admin.insecure_clone();
+    let (tokens, shares) = env.user(&user, 100);
+    env.send(env.deposit(&user.pubkey(), tokens, shares, 100), &user)
+        .unwrap();
+    let accounts = [
+        env.vault,
+        env.position(&user.pubkey()),
+        env.token_vault,
+        env.share_mint,
+        tokens,
+        shares,
+    ];
+    let before = env.snapshot(&accounts);
+    for (amount, expected) in [(0, "ZeroAmount"), (101, "InsufficientShares")] {
+        let error = env
+            .send(env.withdraw(&user.pubkey(), tokens, shares, amount), &user)
+            .unwrap_err();
+        assert!(error.contains(expected), "{error}");
+        assert_eq!(env.snapshot(&accounts), before);
+    }
+    // Имитируем убыток: цена одной share меньше минимальной единицы актива.
+    let mut storage = env.svm.get_account(&addr(&env.token_vault)).unwrap();
+    let mut state = TokenAccount::unpack(&storage.data).unwrap();
+    state.amount = 1;
+    TokenAccount::pack(state, &mut storage.data).unwrap();
+    env.svm
+        .set_account(addr(&env.token_vault), storage)
+        .unwrap();
+    let before = env.snapshot(&accounts);
+    let error = env
+        .send(env.withdraw(&user.pubkey(), tokens, shares, 1), &user)
+        .unwrap_err();
+    assert!(error.contains("WithdrawTooSmall"), "{error}");
+    assert_eq!(env.snapshot(&accounts), before);
+    env.send(env.withdraw(&user.pubkey(), tokens, shares, 100), &user)
+        .unwrap();
+    assert_eq!(env.balance(tokens), 1);
+    assert_eq!(env.supply(), 0);
+}
+
+#[test]
+fn withdrawals_reject_foreign_accounts_wrong_mints_and_missing_user_signature() {
+    let mut env = Env::new(anchor_spl::token::ID);
+    env.initialize();
+    let owner = env.admin.insecure_clone();
+    let stranger = Keypair::new();
+    let (tokens_a, shares_a) = env.user(&owner, 100);
+    let (tokens_b, shares_b) = env.user(&stranger, 0);
+    let wrong_tokens = env.token_account(env.share_mint, key(&owner.pubkey()), 0);
+    let wrong_shares = env.token_account(env.asset_mint, key(&owner.pubkey()), 0);
+    env.send(
+        env.deposit(&owner.pubkey(), tokens_a, shares_a, 100),
+        &owner,
+    )
+    .unwrap();
+    let mut wrong_position = env.withdraw(&stranger.pubkey(), tokens_b, shares_b, 10);
+    wrong_position
+        .accounts
+        .iter_mut()
+        .find(|meta| meta.pubkey == addr(&env.position(&stranger.pubkey())))
+        .unwrap()
+        .pubkey = addr(&env.position(&owner.pubkey()));
+    let mut unsigned = env.withdraw(&owner.pubkey(), tokens_a, shares_a, 10);
+    unsigned
+        .accounts
+        .iter_mut()
+        .find(|meta| meta.pubkey == owner.pubkey())
+        .unwrap()
+        .is_signer = false;
+    let accounts = [
+        env.vault,
+        env.position(&owner.pubkey()),
+        env.position(&stranger.pubkey()),
+        env.token_vault,
+        env.share_mint,
+        tokens_a,
+        shares_a,
+        tokens_b,
+        shares_b,
+        wrong_tokens,
+        wrong_shares,
+    ];
+    let before = env.snapshot(&accounts);
+    for (ix, signer, expected) in [
+        (
+            env.withdraw(&stranger.pubkey(), tokens_b, shares_a, 10),
+            &stranger,
+            "ConstraintTokenOwner",
+        ),
+        (
+            env.withdraw(&owner.pubkey(), tokens_b, shares_a, 10),
+            &owner,
+            "ConstraintTokenOwner",
+        ),
+        (
+            env.withdraw(&owner.pubkey(), wrong_tokens, shares_a, 10),
+            &owner,
+            "ConstraintTokenMint",
+        ),
+        (
+            env.withdraw(&owner.pubkey(), tokens_a, wrong_shares, 10),
+            &owner,
+            "ConstraintTokenMint",
+        ),
+        (wrong_position, &stranger, "ConstraintSeeds"),
+        (unsigned, &stranger, "AccountNotSigner"),
+    ] {
+        let error = env.send(ix, signer).unwrap_err();
+        assert!(error.contains(expected), "{error}");
+        assert_eq!(env.snapshot(&accounts), before);
+    }
+}
+
+#[test]
+fn a_failed_asset_transfer_rolls_back_the_preceding_share_burn() {
+    for token_program in [anchor_spl::token::ID, anchor_spl::token_2022::ID] {
+        let mut env = Env::new(token_program);
+        env.initialize();
+        let user = env.admin.insecure_clone();
+        let (tokens, shares) = env.user(&user, 100);
+        env.send(env.deposit(&user.pubkey(), tokens, shares, 100), &user)
+            .unwrap();
+        let mut account = env.svm.get_account(&addr(&tokens)).unwrap();
+        let mut state = TokenAccount::unpack(&account.data).unwrap();
+        state.state = anchor_spl::token_interface::spl_token_2022::state::AccountState::Frozen;
+        TokenAccount::pack(state, &mut account.data).unwrap();
+        env.svm.set_account(addr(&tokens), account).unwrap();
+        let accounts = [
+            env.vault,
+            env.position(&user.pubkey()),
+            env.token_vault,
+            env.share_mint,
+            tokens,
+            shares,
+        ];
+        let before = env.snapshot(&accounts);
+        let error = env
+            .send(env.withdraw(&user.pubkey(), tokens, shares, 50), &user)
+            .unwrap_err();
+        assert!(error.contains("Account is frozen"), "{error}");
+        let burn_success = error
+            .find(&format!("Program {} success", token_program))
+            .unwrap();
+        assert!(
+            burn_success < error.find("Account is frozen").unwrap(),
+            "{error}"
+        );
+        assert_eq!(env.snapshot(&accounts), before);
+    }
+}
+
+#[test]
+fn withdrawal_multiplication_handles_u64_max_without_overflow() {
+    let mut env = Env::new(anchor_spl::token::ID);
+    env.initialize();
+    let user = env.admin.insecure_clone();
+    let (tokens, shares) = env.user(&user, u64::MAX);
+    env.send(env.deposit(&user.pubkey(), tokens, shares, u64::MAX), &user)
+        .unwrap();
+    env.send(
+        env.withdraw(&user.pubkey(), tokens, shares, u64::MAX - 1),
+        &user,
+    )
+    .unwrap();
+    assert_eq!(env.balance(tokens), u64::MAX - 1);
+    assert_eq!(env.supply(), 1);
+    assert_eq!(env.balance(env.token_vault), 1);
+    env.send(env.withdraw(&user.pubkey(), tokens, shares, 1), &user)
+        .unwrap();
+    assert_eq!(env.balance(tokens), u64::MAX);
+    assert_eq!(env.supply(), 0);
+    assert_eq!(env.config().total_deposited, 0);
 }
 
 #[test]

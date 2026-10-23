@@ -7,7 +7,7 @@
 **Год:** 2026
 
 Учебный репозиторий по разработке на Solana: от локальной CLI-копилки на Rust
-до программ в Devnet, собственного токена TMR и депозитов в токеновый vault.
+до программ в Devnet, собственного токена TMR, депозитов и вывода из токенового vault.
 Здесь собраны исходный код, клиенты на JavaScript, тесты и шесть отчётов
 с результатами работ.
 
@@ -27,6 +27,7 @@
 | Неделя 7 — Token-2022 | Выпущен Timur Token (TMR) с метаданными и комиссией за перевод; выполнены операции через клиент | [token/](token/README.md) | [Отчёт](reports/week-07-token-2022-tmr.docx) |
 | Неделя 8 — каркас vault | Программа в Devnet: настройки, share-mint, хранилище TMR и позиции пользователей на PDA | [vault/](vault/README.md) | [Схема и защита](vault/README.md#схема-аккаунтов) |
 | Неделя 9 — депозит и shares | Депозит в существующий vault, пропорциональные shares, учёт комиссии TMR и карточки пользователя | [vault/](vault/README.md#неделя-9-депозит-и-share-токены) | [Проверки и команды](vault/README.md#проверки-недели-9) |
+| Неделя 10 — CPI и вывод | Сжигание shares с подписью пользователя, пропорциональная выплата с подписью PDA и учёт комиссии TMR | [vault/](vault/README.md#неделя-10-cpi-и-вывод-из-vault) | [Проверки и защита](vault/README.md#проверки-недели-10) |
 
 ### Неделя 3 — локальная копилка Piggy
 
@@ -108,6 +109,22 @@ Anchor проверяет подпись, адрес и владельца ак�
 Получено 148,5 shares с учётом комиссии TMR; подтверждения и итоговое состояние —
 в [снимке недели 9](vault/deployment-week9.json).
 
+### Неделя 10 — CPI и вывод из vault
+
+В существующую программу добавлен `withdraw(shares)`: выплата рассчитывается
+по доле в доступных активах, затем Token Program через CPI сжигает shares
+с подписью пользователя и переводит активы с подписью PDA vault.
+Комиссия TMR учитывается и при выводе; ошибка выплаты откатывает сжигание.
+Сохранены Program ID и аккаунты недель 8–9.
+
+Формула, команды, описание `Burn` / `TransferChecked` и ответы для защиты —
+в [разделе недели 10](vault/README.md#неделя-10-cpi-и-вывод-из-vault).
+
+В Devnet проверены [частичный вывод](https://explorer.solana.com/tx/5uCo4vsdHCycgpJmBCzURHQJkxeQBCPEbmnVphy2i2dMxV5dtEpWJ73sebQPKKAAb4Ca5cDYP2krHECTtP535BZf?cluster=devnet)
+и [вывод остатка](https://explorer.solana.com/tx/3gwbPPiv54NPoj7pLMhb1VPXMQruEtMGuDe71LpFHeviEhU4vtqyNXWQnqXEZm4jbqo5F7AKDKcT7sgq6RQqR5Ss?cluster=devnet).
+Оба завершены со статусом `finalized`; балансы, комиссии и внутренние вызовы —
+в [снимке недели 10](vault/deployment-week10.json).
+
 ## Структура репозитория
 
 ```text
@@ -127,7 +144,7 @@ almau-solana/
 ├── counter/               # неделя 5: Anchor Counter, IDL, клиент и тесты
 ├── profile/               # неделя 6: Anchor Profile, IDL, клиент и тесты
 ├── token/                 # неделя 7: клиент Token-2022
-├── vault/                 # недели 8–9: Anchor vault, депозит, shares, IDL и тесты
+├── vault/                 # недели 8–10: Anchor vault, депозит, shares, вывод, IDL и тесты
 ├── docs/
 │   └── piggy-vault.md     # подробное руководство и разбор устройства Piggy
 └── reports/
@@ -229,7 +246,7 @@ Devnet. Собственный кошелёк позволяет вызвать 
 | Anchor Counter | [HN2SRai9T3z7Rsw2avdz7Ns5tewqHctg9JeTeiSU6jTW](https://explorer.solana.com/address/HN2SRai9T3z7Rsw2avdz7Ns5tewqHctg9JeTeiSU6jTW?cluster=devnet) |
 | Anchor Profile | [EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP](https://explorer.solana.com/address/EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP?cluster=devnet) |
 | Mint TMR | [Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31](https://explorer.solana.com/address/Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31?cluster=devnet) |
-| Anchor Vault — недели 8–9 | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
+| Anchor Vault — недели 8–10 | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
 
 Результаты предыдущих работ зафиксированы в исходных отчётах.
 Аккаунты и транзакции недели 8 — в [README vault](vault/README.md#devnet-и-explorer)
@@ -237,6 +254,13 @@ Devnet. Собственный кошелёк позволяет вызвать 
 Состояние аккаунтов и доступность истории Devnet могут измениться.
 
 ## Проверки перед публикацией
+
+24 октября 2026 года для недели 10 прошёл **21 тест LiteSVM**, проверены
+аргументы CLI и локальный цикл с частичным и полным выводом, комиссией TMR
+и повторным депозитом. В Devnet обновлены та же программа и IDL, выполнены
+два вывода, проверены CPI, старые позиции, конечные балансы и точное совпадение
+байткода. Подробности — в [README vault](vault/README.md#devnet-выводы-недели-10).
+Предыдущие подпроекты при выполнении недели 10 повторно не тестировались.
 
 22 октября 2026 года для недели 9 прошли **14 тестов LiteSVM**, проверка
 аргументов CLI, локальный сценарий `demo → deposit → show` на копии TMR и

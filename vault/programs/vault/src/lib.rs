@@ -1,7 +1,7 @@
-//! Недели 8–9: каркас vault, депозит и пропорциональный выпуск share-токенов.
+//! Недели 8–10: токеновый vault с депозитом, shares и выводом через CPI.
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{
-    self, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked,
+    self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked,
 };
 
 declare_id!("J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN");
@@ -35,7 +35,7 @@ pub mod vault {
     }
 
     /// Зачислить фактически полученные токены и выпустить долю по цене до депозита.
-    pub fn deposit(ctx: Context<Deposit>, amount: u64) -> Result<()> {
+    pub fn deposit(ctx: Context<VaultUser>, amount: u64) -> Result<()> {
         require!(amount > 0, VaultError::ZeroAmount);
         let assets_before = ctx.accounts.token_vault.amount;
         let supply = ctx.accounts.share_mint.supply;
@@ -103,6 +103,73 @@ pub mod vault {
             amount,
             received,
             shares
+        );
+        Ok(())
+    }
+
+    /// Сжечь shares пользователя и вернуть их долю доступных активов vault.
+    pub fn withdraw(ctx: Context<VaultUser>, shares: u64) -> Result<()> {
+        require!(shares > 0, VaultError::ZeroAmount);
+        require!(
+            shares <= ctx.accounts.user_share_account.amount,
+            VaultError::InsufficientShares
+        );
+        let supply = ctx.accounts.share_mint.supply;
+        require!(supply > 0, VaultError::InvalidVaultBalance);
+        let assets = (shares as u128)
+            .checked_mul(ctx.accounts.token_vault.amount as u128)
+            .and_then(|value| value.checked_div(supply as u128))
+            .and_then(|value| u64::try_from(value).ok())
+            .ok_or(VaultError::MathOverflow)?;
+        require!(assets > 0, VaultError::WithdrawTooSmall);
+        let user_balance_before = ctx.accounts.user_token_account.amount;
+
+        token_interface::burn(
+            CpiContext::new(
+                ctx.accounts.token_program.key(),
+                Burn {
+                    mint: ctx.accounts.share_mint.to_account_info(),
+                    from: ctx.accounts.user_share_account.to_account_info(),
+                    authority: ctx.accounts.user.to_account_info(),
+                },
+            ),
+            shares,
+        )?;
+
+        let admin = ctx.accounts.vault.admin;
+        let asset_mint = ctx.accounts.vault.asset_mint;
+        let bump = [ctx.accounts.vault.bump];
+        let seeds: &[&[u8]] = &[b"vault", admin.as_ref(), asset_mint.as_ref(), &bump];
+        token_interface::transfer_checked(
+            CpiContext::new_with_signer(
+                ctx.accounts.token_program.key(),
+                TransferChecked {
+                    from: ctx.accounts.token_vault.to_account_info(),
+                    mint: ctx.accounts.asset_mint.to_account_info(),
+                    to: ctx.accounts.user_token_account.to_account_info(),
+                    authority: ctx.accounts.vault.to_account_info(),
+                },
+                &[seeds],
+            ),
+            assets,
+            ctx.accounts.asset_mint.decimals,
+        )?;
+        ctx.accounts.token_vault.reload()?;
+        ctx.accounts.user_token_account.reload()?;
+        let received = ctx
+            .accounts
+            .user_token_account
+            .amount
+            .checked_sub(user_balance_before)
+            .ok_or(VaultError::MathOverflow)?;
+        // Полностью удержанная комиссия не должна сжигать долю без выплаты.
+        require!(received > 0, VaultError::NothingReceived);
+        ctx.accounts.vault.total_deposited = ctx.accounts.token_vault.amount;
+        msg!(
+            "Withdraw: shares={}, assets={}, received={}",
+            shares,
+            assets,
+            received
         );
         Ok(())
     }
@@ -175,7 +242,7 @@ pub struct OpenPosition<'info> {
 }
 
 #[derive(Accounts)]
-pub struct Deposit<'info> {
+pub struct VaultUser<'info> {
     pub user: Signer<'info>,
 
     #[account(
@@ -260,9 +327,9 @@ pub struct UserPosition {
 
 #[error_code]
 pub enum VaultError {
-    #[msg("Deposit must be greater than zero")]
+    #[msg("Amount must be greater than zero")]
     ZeroAmount,
-    #[msg("Deposit received no spendable tokens")]
+    #[msg("Transfer received no spendable tokens")]
     NothingReceived,
     #[msg("Deposit is too small to receive a share")]
     SharesTooSmall,
@@ -272,4 +339,8 @@ pub enum VaultError {
     InvalidVaultBalance,
     #[msg("Position must belong to the signer")]
     Unauthorized,
+    #[msg("Not enough shares in the user's token account")]
+    InsufficientShares,
+    #[msg("Withdrawal is too small to receive an asset")]
+    WithdrawTooSmall,
 }
