@@ -35,6 +35,7 @@ const vault = pda(Buffer.from('vault'), admin.toBuffer(), assetMint.toBuffer());
 const shareMint = pda(Buffer.from('share_mint'), vault.toBuffer());
 const tokenVault = pda(Buffer.from('token_vault'), vault.toBuffer());
 const position = pda(Buffer.from('position'), vault.toBuffer(), user.toBuffer());
+const market = pda(Buffer.from('market'), vault.toBuffer());
 const explorerCluster = connection.rpcEndpoint === web3.clusterApiUrl('devnet')
   ? 'cluster=devnet'
   : `cluster=custom&customUrl=${encodeURIComponent(connection.rpcEndpoint)}`;
@@ -56,6 +57,10 @@ if (command === 'demo' && !config) {
   config = await program.account.vaultConfig.fetch(vault);
 }
 assert(config, 'Vault не создан: сначала запустите demo с кошельком администратора');
+if (command === 'deposit' || command === 'withdraw') {
+  const trading = await connection.getAccountInfo(market);
+  assert(!trading?.owner.equals(program.programId), 'Торговый vault требует учёта обоих активов перед операциями с shares');
+}
 
 let userPosition = await program.account.userPosition.fetchNullable(position);
 if (signer && !userPosition) {
@@ -81,7 +86,7 @@ if (command === 'deposit' || command === 'withdraw') {
   const userShareAccount = depositing ? destinationAddress : sourceAddress;
   const signature = await program.methods[command](new BN(amount.toString())).accountsStrict({
     user, vault, position, assetMint, shareMint, tokenVault,
-    userTokenAccount, userShareAccount, tokenProgram,
+    userTokenAccount, userShareAccount, tokenProgram, market,
   }).rpc();
   console.log(command, explorer('tx', signature));
   config = await program.account.vaultConfig.fetch(vault);

@@ -1,7 +1,7 @@
 [package]
 name = "vault"
 version = "0.1.0"
-description = "Недели 8–10 — токеновый vault, депозит, shares и вывод через CPI"
+description = "Недели 8–12 — токеновый vault, shares и swap через Raydium CLMM CPI"
 authors = ["Медиханов Тимур"]
 edition = "2021"
 
@@ -31,6 +31,7 @@ solana-keypair = "3"
 solana-signer = "3"
 solana-transaction = "4"
 solana-message = "4"
+serde_json = "1"
 
 [lints.rust]
 unexpected_cfgs = { level = "warn", check-cfg = ['cfg(target_os, values("solana"))'] }

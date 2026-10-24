@@ -1,4 +1,4 @@
-# Недели 8–11 — токеновый vault и Raydium CLMM
+# Недели 8–12 — токеновый vault и Raydium CLMM
 
 **Автор:** Медиханов Тимур
 
@@ -16,6 +16,15 @@ Anchor-программа создаёт настройки vault, новый sh
 vault, share-mint, хранилище TMR и позиции двух пользователей. 24 октября
 добавлен и проверен частичный и полный вывод: [результат недели 10](#devnet-выводы-недели-10).
 Адреса и подтверждённые транзакции — в разделе [Devnet и Explorer](#devnet-и-explorer).
+
+## Неделя 12: Swap через Raydium
+
+Программа vault выполняет `SwapV2` Raydium через CPI с подписью PDA;
+запуск доступен только администратору. Для пары A/B недели 11 создан
+торговый vault с двумя хранилищами. В Devnet обменены 10 A на 9,990320 B,
+проверен полный откат второй транзакции по slippage. Команды, ссылки,
+изменение цены и ограничения shares — в [README недели 12](README-week12.md).
+Снимок RPC — [deployment-week12.json](deployment-week12.json).
 
 ## Неделя 11: AMM и концентрированная ликвидность
 
@@ -360,12 +369,14 @@ SBF platform-tools 1.57, LiteSVM 0.17.0 и Node.js 25.6.1.
 Из корня репозитория:
 
 ```bash
-cd vault
+cd vault/client
+npm ci
+npm run swap:fixture
+cd ..
 cargo build-sbf --manifest-path programs/vault/Cargo.toml --arch v2 -- --locked
 cargo test --locked
 
 cd client
-npm ci
 node --check vault.mjs
 ```
 
@@ -373,6 +384,8 @@ node --check vault.mjs
 LiteSVM исполняет этот SBF-байткод. Сгенерированный IDL находится
 в [idl/vault.json](idl/vault.json). При изменении программы обновите его
 через Anchor CLI, чтобы клиент соответствовал инструкциям и данным аккаунтов.
+Для тестов недели 12 также нужен публичный снимок Raydium, который
+`swap:fixture` сохраняет в `target/fixtures/` без чтения кошелька и транзакций.
 
 12 октября 2026 года прошли **8 интеграционных тестов**:
 

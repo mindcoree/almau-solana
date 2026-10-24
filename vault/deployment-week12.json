@@ -1,0 +1,704 @@
+{
+  "week": 12,
+  "cluster": "devnet",
+  "program": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+  "admin": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+  "clmmProgram": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+  "pool": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+  "assetMint": "99DCQk2bTNf51imVsZmekBvQe3WzMBzSnnbFheJ6XmhG",
+  "quoteMint": "EweCVMPvYeFojEmbphGnMchjAvLVMLaFbt3emjyNqrWB",
+  "vault": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+  "shareMint": "2Pxx8Pjcc1KsFgPPYAiP5ZPVtubej6ZphiMXgDA1wTNP",
+  "tokenVault": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+  "market": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+  "quoteVault": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+  "transactions": {
+    "createVault": {
+      "signature": "4xZt2T4aWw443BeRgPMuw5oZvH3c82AyUmHVZjMVnir32veRouhBPkXiVCP2ZyxNXxNevocNB24ArCNjCTrvnBjj",
+      "expectedError": null,
+      "lastValidBlockHeight": 501693608,
+      "simulated": true,
+      "unitsConsumed": 40334,
+      "explorer": "https://explorer.solana.com/tx/4xZt2T4aWw443BeRgPMuw5oZvH3c82AyUmHVZjMVnir32veRouhBPkXiVCP2ZyxNXxNevocNB24ArCNjCTrvnBjj?cluster=devnet",
+      "slot": 514490448,
+      "err": null,
+      "confirmationStatus": "finalized",
+      "feeLamports": 5600,
+      "signerAddresses": [
+        "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi"
+      ]
+    },
+    "initializeMarket": {
+      "signature": "31XVjtJdYHCKubna8tNPbDhKU677eEMTiyMiFyCzeMCCcrtm2t8WiEPHMLXTTj9kV4tFuuyDrXhFkrf7FPdHD631",
+      "expectedError": null,
+      "lastValidBlockHeight": 501693617,
+      "simulated": true,
+      "unitsConsumed": 25078,
+      "explorer": "https://explorer.solana.com/tx/31XVjtJdYHCKubna8tNPbDhKU677eEMTiyMiFyCzeMCCcrtm2t8WiEPHMLXTTj9kV4tFuuyDrXhFkrf7FPdHD631?cluster=devnet",
+      "slot": 514490495,
+      "err": null,
+      "confirmationStatus": "finalized",
+      "feeLamports": 5600,
+      "signerAddresses": [
+        "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi"
+      ]
+    },
+    "fund100A": {
+      "signature": "ASiadPzk9ednHs9gqDSWb8MBXXx5QYKfrT1eroNQiTpoMZpPzv5FRurjPFvzM6wppQwinboQ29LRBqU8xobW4TM",
+      "expectedError": null,
+      "lastValidBlockHeight": 501693663,
+      "simulated": true,
+      "unitsConsumed": 405,
+      "explorer": "https://explorer.solana.com/tx/ASiadPzk9ednHs9gqDSWb8MBXXx5QYKfrT1eroNQiTpoMZpPzv5FRurjPFvzM6wppQwinboQ29LRBqU8xobW4TM?cluster=devnet",
+      "slot": 514490502,
+      "err": null,
+      "confirmationStatus": "finalized",
+      "feeLamports": 5600,
+      "signerAddresses": [
+        "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi"
+      ]
+    },
+    "swap": {
+      "signature": "31yJhfKiqAaAXWs2C6nappQjqwBNuKDBC65ragSLnxSGb71qjTJ86ucSS9MJYDEapsnDJkmSYxEgJiz7GUwHgM66",
+      "expectedError": null,
+      "lastValidBlockHeight": 501693673,
+      "simulated": true,
+      "unitsConsumed": 84405,
+      "explorer": "https://explorer.solana.com/tx/31yJhfKiqAaAXWs2C6nappQjqwBNuKDBC65ragSLnxSGb71qjTJ86ucSS9MJYDEapsnDJkmSYxEgJiz7GUwHgM66?cluster=devnet",
+      "slot": 514490513,
+      "err": null,
+      "confirmationStatus": "finalized",
+      "feeLamports": 5600,
+      "signerAddresses": [
+        "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi"
+      ],
+      "innerInstructions": [
+        {
+          "program": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH"
+        },
+        {
+          "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "type": "transferChecked",
+          "info": {
+            "authority": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+            "destination": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+            "mint": "99DCQk2bTNf51imVsZmekBvQe3WzMBzSnnbFheJ6XmhG",
+            "source": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+            "tokenAmount": {
+              "amount": "10000000",
+              "decimals": 6,
+              "uiAmount": 10,
+              "uiAmountString": "10"
+            }
+          }
+        },
+        {
+          "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "type": "transferChecked",
+          "info": {
+            "authority": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+            "destination": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+            "mint": "EweCVMPvYeFojEmbphGnMchjAvLVMLaFbt3emjyNqrWB",
+            "source": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+            "tokenAmount": {
+              "amount": "9990320",
+              "decimals": 6,
+              "uiAmount": 9.99032,
+              "uiAmountString": "9.99032"
+            }
+          }
+        }
+      ],
+      "logs": [
+        "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+        "Program ComputeBudget111111111111111111111111111111 success",
+        "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+        "Program ComputeBudget111111111111111111111111111111 success",
+        "Program J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN invoke [1]",
+        "Program log: Instruction: Swap",
+        "Program DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH invoke [2]",
+        "Program log: Instruction: SwapV2",
+        "Program data: QMbN6CYIceJSbRP8574t46cWmgLNn/OUkEl3MnlTpzqD6rqPLYqfh7pk07LtsM6MHEt9qVhQ+rsNn3uZyyklGlMXfsF/vkd84JX6vgMP3/VtBEzpLdPXyDhM57Mo+DAjyo+SQrkVj5Fxi1Ez4iNgRWfsxEkKL2BgXrvooHLMQcJfrd/iyKnIUYCWmAAAAAAAAAAAAAAAAACwcJgAAAAAAAAAAAAAAAAAAd4G5QEmUeH/AAAAAAAAAADlwd33BAAAAAAAAAAAAAAA9v///4gTAAAAAAAAAAAAAAAAAAA=",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 105 of 523790 compute units",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 105 of 521418 compute units",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+        "Program DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH consumed 46837 of 565889 compute units",
+        "Program DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH success",
+        "Program log: Swap: amount_in=10000000, amount_out=9990320, minimum_out=9890416",
+        "Program J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN consumed 84105 of 599700 compute units",
+        "Program J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN success"
+      ]
+    },
+    "rejectedSlippage": {
+      "signature": "aYzsM4noJeMaN3uQsWH3K93fy5zcMAgW2uLSDNuQ6ft9hqFUfVfpdfroDCFtyMNMFBWufcK3UhDpvggJ4Y6YmTn",
+      "expectedError": 6018,
+      "lastValidBlockHeight": 501693684,
+      "simulated": true,
+      "unitsConsumed": 84241,
+      "explorer": "https://explorer.solana.com/tx/aYzsM4noJeMaN3uQsWH3K93fy5zcMAgW2uLSDNuQ6ft9hqFUfVfpdfroDCFtyMNMFBWufcK3UhDpvggJ4Y6YmTn?cluster=devnet",
+      "slot": 514490524,
+      "err": {
+        "InstructionError": [
+          2,
+          {
+            "Custom": 6018
+          }
+        ]
+      },
+      "confirmationStatus": "finalized",
+      "feeLamports": 5600,
+      "signerAddresses": [
+        "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi"
+      ],
+      "innerInstructions": [
+        {
+          "program": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH"
+        },
+        {
+          "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "type": "transferChecked",
+          "info": {
+            "authority": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+            "destination": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+            "mint": "99DCQk2bTNf51imVsZmekBvQe3WzMBzSnnbFheJ6XmhG",
+            "source": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+            "tokenAmount": {
+              "amount": "10000000",
+              "decimals": 6,
+              "uiAmount": 10,
+              "uiAmountString": "10"
+            }
+          }
+        },
+        {
+          "program": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+          "type": "transferChecked",
+          "info": {
+            "authority": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+            "destination": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+            "mint": "EweCVMPvYeFojEmbphGnMchjAvLVMLaFbt3emjyNqrWB",
+            "source": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+            "tokenAmount": {
+              "amount": "9980970",
+              "decimals": 6,
+              "uiAmount": 9.98097,
+              "uiAmountString": "9.98097"
+            }
+          }
+        }
+      ],
+      "logs": [
+        "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+        "Program ComputeBudget111111111111111111111111111111 success",
+        "Program ComputeBudget111111111111111111111111111111 invoke [1]",
+        "Program ComputeBudget111111111111111111111111111111 success",
+        "Program J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN invoke [1]",
+        "Program log: Instruction: Swap",
+        "Program DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH invoke [2]",
+        "Program log: Instruction: SwapV2",
+        "Program data: QMbN6CYIceJSbRP8574t46cWmgLNn/OUkEl3MnlTpzqD6rqPLYqfh7pk07LtsM6MHEt9qVhQ+rsNn3uZyyklGlMXfsF/vkd84JX6vgMP3/VtBEzpLdPXyDhM57Mo+DAjyo+SQrkVj5Fxi1Ez4iNgRWfsxEkKL2BgXrvooHLMQcJfrd/iyKnIUYCWmAAAAAAAAAAAAAAAAAAqTJgAAAAAAAAAAAAAAAAAAYpvQQemqcL/AAAAAAAAAADlwd33BAAAAAAAAAAAAAAA7f///4gTAAAAAAAAAAAAAAAAAAA=",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 105 of 523232 compute units",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA invoke [3]",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA consumed 105 of 520860 compute units",
+        "Program TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA success",
+        "Program log: AnchorError thrown in programs/amm/src/instructions/swap_v2.rs:364. Error Code: TooLittleOutputReceived. Error Number: 6018. Error Message: Too little output received.",
+        "Program log: Left: 9980970",
+        "Program log: Right: 18446744073709551615",
+        "Program DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH consumed 50130 of 565889 compute units",
+        "Program DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH failed: custom program error: 0x1782",
+        "Program J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN consumed 83941 of 599700 compute units",
+        "Program J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN failed: custom program error: 0x1782"
+      ]
+    }
+  },
+  "beforeSwap": {
+    "slot": 514490505,
+    "storageA": "100000000",
+    "storageB": "0",
+    "totalDeposited": "0",
+    "shareSupply": "0",
+    "price": "1",
+    "sqrtPriceX64": "18446744073709551616",
+    "currentTick": 0,
+    "mutableDataSha256": "f16aae4665236e544ed2cf3e6959b3826c7b8da7de460e1b12c8c847fcc4238a",
+    "poolA": "1000000000",
+    "poolB": "1101433008",
+    "accounts": {
+      "vault": {
+        "address": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145
+      },
+      "market": {
+        "address": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 137
+      },
+      "tokenVault": {
+        "address": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "quoteVault": {
+        "address": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "shareMint": {
+        "address": "2Pxx8Pjcc1KsFgPPYAiP5ZPVtubej6ZphiMXgDA1wTNP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 82
+      },
+      "poolState": {
+        "address": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1544
+      },
+      "ammConfig": {
+        "address": "FZdkW5jiYsjTnCVqFqPrxrQisQkCYrohd7ArZhoKnM8q",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 117
+      },
+      "inputVault": {
+        "address": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "outputVault": {
+        "address": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "observation": {
+        "address": "AA17hTGhZmVpZoWGEMgKVFbW62dniofMnM9inmtkUjpw",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 4483
+      },
+      "bitmap": {
+        "address": "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1832
+      },
+      "tickArrayLower": {
+        "address": "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      },
+      "tickArrayUpper": {
+        "address": "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      }
+    }
+  },
+  "quote": {
+    "amountIn": "10000000",
+    "expectedOut": "9990320",
+    "minimumOut": "9890416",
+    "feeAmount": "5000",
+    "priceBefore": "1",
+    "priceAfter": "0.99906384792694307035",
+    "sqrtPriceAfterX64": "18438107573113915102",
+    "remainingAccounts": [
+      "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+      "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+      "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs"
+    ]
+  },
+  "afterSwap": {
+    "slot": 514490516,
+    "storageA": "90000000",
+    "storageB": "9990320",
+    "totalDeposited": "90000000",
+    "shareSupply": "0",
+    "price": "0.99906384792694307035",
+    "sqrtPriceX64": "18438107573113915102",
+    "currentTick": -10,
+    "mutableDataSha256": "cdeef7b330eb68545a2df3fe6330bb1decc3d6d0a2919a3611003d5702b1b896",
+    "poolA": "1010000000",
+    "poolB": "1091442688",
+    "accounts": {
+      "vault": {
+        "address": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145
+      },
+      "market": {
+        "address": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 137
+      },
+      "tokenVault": {
+        "address": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "quoteVault": {
+        "address": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "shareMint": {
+        "address": "2Pxx8Pjcc1KsFgPPYAiP5ZPVtubej6ZphiMXgDA1wTNP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 82
+      },
+      "poolState": {
+        "address": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1544
+      },
+      "ammConfig": {
+        "address": "FZdkW5jiYsjTnCVqFqPrxrQisQkCYrohd7ArZhoKnM8q",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 117
+      },
+      "inputVault": {
+        "address": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "outputVault": {
+        "address": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "observation": {
+        "address": "AA17hTGhZmVpZoWGEMgKVFbW62dniofMnM9inmtkUjpw",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 4483
+      },
+      "bitmap": {
+        "address": "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1832
+      },
+      "tickArrayLower": {
+        "address": "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      },
+      "tickArrayUpper": {
+        "address": "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      }
+    }
+  },
+  "beforeRejected": {
+    "slot": 514490517,
+    "storageA": "90000000",
+    "storageB": "9990320",
+    "totalDeposited": "90000000",
+    "shareSupply": "0",
+    "price": "0.99906384792694307035",
+    "sqrtPriceX64": "18438107573113915102",
+    "currentTick": -10,
+    "mutableDataSha256": "cdeef7b330eb68545a2df3fe6330bb1decc3d6d0a2919a3611003d5702b1b896",
+    "poolA": "1010000000",
+    "poolB": "1091442688",
+    "accounts": {
+      "vault": {
+        "address": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145
+      },
+      "market": {
+        "address": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 137
+      },
+      "tokenVault": {
+        "address": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "quoteVault": {
+        "address": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "shareMint": {
+        "address": "2Pxx8Pjcc1KsFgPPYAiP5ZPVtubej6ZphiMXgDA1wTNP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 82
+      },
+      "poolState": {
+        "address": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1544
+      },
+      "ammConfig": {
+        "address": "FZdkW5jiYsjTnCVqFqPrxrQisQkCYrohd7ArZhoKnM8q",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 117
+      },
+      "inputVault": {
+        "address": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "outputVault": {
+        "address": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "observation": {
+        "address": "AA17hTGhZmVpZoWGEMgKVFbW62dniofMnM9inmtkUjpw",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 4483
+      },
+      "bitmap": {
+        "address": "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1832
+      },
+      "tickArrayLower": {
+        "address": "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      },
+      "tickArrayUpper": {
+        "address": "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      }
+    }
+  },
+  "rejectedQuote": {
+    "amountIn": "10000000",
+    "expectedOut": "9980970",
+    "minimumOut": "9881160",
+    "feeAmount": "5000",
+    "priceBefore": "0.99906384792694307035",
+    "priceAfter": "0.99812900980988667809",
+    "sqrtPriceAfterX64": "18429479155704885130",
+    "remainingAccounts": [
+      "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+      "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+      "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs"
+    ]
+  },
+  "rejectedMinimum": "18446744073709551615",
+  "afterRejected": {
+    "slot": 514490528,
+    "storageA": "90000000",
+    "storageB": "9990320",
+    "totalDeposited": "90000000",
+    "shareSupply": "0",
+    "price": "0.99906384792694307035",
+    "sqrtPriceX64": "18438107573113915102",
+    "currentTick": -10,
+    "mutableDataSha256": "cdeef7b330eb68545a2df3fe6330bb1decc3d6d0a2919a3611003d5702b1b896",
+    "poolA": "1010000000",
+    "poolB": "1091442688",
+    "accounts": {
+      "vault": {
+        "address": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145
+      },
+      "market": {
+        "address": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 137
+      },
+      "tokenVault": {
+        "address": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "quoteVault": {
+        "address": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "shareMint": {
+        "address": "2Pxx8Pjcc1KsFgPPYAiP5ZPVtubej6ZphiMXgDA1wTNP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 82
+      },
+      "poolState": {
+        "address": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1544
+      },
+      "ammConfig": {
+        "address": "FZdkW5jiYsjTnCVqFqPrxrQisQkCYrohd7ArZhoKnM8q",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 117
+      },
+      "inputVault": {
+        "address": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "outputVault": {
+        "address": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "observation": {
+        "address": "AA17hTGhZmVpZoWGEMgKVFbW62dniofMnM9inmtkUjpw",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 4483
+      },
+      "bitmap": {
+        "address": "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1832
+      },
+      "tickArrayLower": {
+        "address": "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      },
+      "tickArrayUpper": {
+        "address": "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      }
+    }
+  },
+  "finalState": {
+    "slot": 514493335,
+    "storageA": "90000000",
+    "storageB": "9990320",
+    "totalDeposited": "90000000",
+    "shareSupply": "0",
+    "price": "0.99906384792694307035",
+    "sqrtPriceX64": "18438107573113915102",
+    "currentTick": -10,
+    "mutableDataSha256": "cdeef7b330eb68545a2df3fe6330bb1decc3d6d0a2919a3611003d5702b1b896",
+    "poolA": "1010000000",
+    "poolB": "1091442688",
+    "accounts": {
+      "vault": {
+        "address": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145
+      },
+      "market": {
+        "address": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 137
+      },
+      "tokenVault": {
+        "address": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "quoteVault": {
+        "address": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "shareMint": {
+        "address": "2Pxx8Pjcc1KsFgPPYAiP5ZPVtubej6ZphiMXgDA1wTNP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 82
+      },
+      "poolState": {
+        "address": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1544
+      },
+      "ammConfig": {
+        "address": "FZdkW5jiYsjTnCVqFqPrxrQisQkCYrohd7ArZhoKnM8q",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 117
+      },
+      "inputVault": {
+        "address": "8e19LHdxsqbNdWrtDWQF3hVE874AQznaBDq2dppgXzrR",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "outputVault": {
+        "address": "ByaCprokWgVWQL8J2ucteQoGW4Su6m869wBG2UGHnAYP",
+        "owner": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+        "dataSize": 165
+      },
+      "observation": {
+        "address": "AA17hTGhZmVpZoWGEMgKVFbW62dniofMnM9inmtkUjpw",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 4483
+      },
+      "bitmap": {
+        "address": "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 1832
+      },
+      "tickArrayLower": {
+        "address": "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      },
+      "tickArrayUpper": {
+        "address": "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+        "owner": "DRayAUgENGQBKVaX8owNhgzkEDyoHTGVEGHVJT1E9pfH",
+        "dataSize": 10240
+      }
+    }
+  },
+  "verifiedAt": "2026-10-24T04:51:15.533Z",
+  "verification": {
+    "rustTestsPassed": 29,
+    "javascriptTestsPassed": 8,
+    "clmmCpiSignedByVault": true,
+    "slippageRollbackVerified": true,
+    "repeatDemoDoesNotMoveFunds": true,
+    "readOnlyShowsWithoutWallet": true,
+    "invalidCliArgumentsRejected": 8,
+    "failedTransactionTokenBalancesUnchanged": true,
+    "legacyTmrAccountsUnchanged": true,
+    "raydiumFixture": {
+      "slot": 514488469,
+      "bytecodeSha256": "60255f5ce990ef6ac6847e2316400d2dc2cb83968cb885bf44d6dfac2531ad43"
+    }
+  },
+  "deployment": {
+    "programData": "CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw",
+    "deployedSlot": 514490132,
+    "bytecodeSize": 372664,
+    "allocatedBytecodeSize": 372664,
+    "bytecodeSha256": "ecb97df15e52f2cd65c3b7e9d422b4227fd342a74a946b012991a00d0820b1b9",
+    "legacyTmrAccountsUnchanged": true,
+    "legacy": {
+      "vault": {
+        "address": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145,
+        "dataSha256": "a84c6e45146d8c88b1375c958b5f0e6393fa7a65bbb4b0136eac1693d1028d60"
+      },
+      "position": {
+        "address": "EeLZf5W1GJ5Q5UW6nxYmxb4h7d2W2r2D2m2ZaN5DNzGw",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 81,
+        "dataSha256": "f5a0e904077256bde4de5160136ef11491e1286ff33d91d5520bf48c6d6aa2ac"
+      },
+      "shareMint": {
+        "address": "EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6",
+        "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "dataSize": 82,
+        "dataSha256": "a89b51fb7e429b6e18df642e1fca903e8fe5f9facdb8d8e11ef5dcef3eb5004e"
+      },
+      "tokenVault": {
+        "address": "4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr",
+        "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "dataSize": 178,
+        "dataSha256": "4c0016bc426c73b73b2ff3745b05bde52fe5c00c9583e08bed049f67cd971899"
+      }
+    },
+    "upgradeSignature": "24PyWXDBxCwjqD3CWrDavkUqbqMFNJE4S3X6rMMSN69swZnh3aps4oZBEsqHwyrY1Ti8LhtUdiinvwe2KwzGutHB",
+    "confirmationStatus": "finalized",
+    "idlMetadata": "EMvd2dZp8zgCJKXYBYxYzTUULBnB4W6FJ8KS88xAf5XX",
+    "idlMatchesGenerated": true,
+    "bufferClosed": true
+  },
+  "verifiedAtSlot": 514493004
+}

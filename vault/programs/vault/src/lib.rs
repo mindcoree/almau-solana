@@ -1,10 +1,14 @@
-//! Недели 8–10: токеновый vault с депозитом, shares и выводом через CPI.
+//! Недели 8–12: vault, shares и обмен через Raydium CLMM с подписью PDA.
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{
     self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked,
 };
 
 declare_id!("J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN");
+declare_program!(raydium_clmm);
+
+mod swap;
+pub use swap::*;
 
 #[program]
 pub mod vault {
@@ -36,6 +40,10 @@ pub mod vault {
 
     /// Зачислить фактически полученные токены и выпустить долю по цене до депозита.
     pub fn deposit(ctx: Context<VaultUser>, amount: u64) -> Result<()> {
+        require!(
+            ctx.accounts.market.data_is_empty(),
+            VaultError::TradingVault
+        );
         require!(amount > 0, VaultError::ZeroAmount);
         let assets_before = ctx.accounts.token_vault.amount;
         let supply = ctx.accounts.share_mint.supply;
@@ -109,6 +117,10 @@ pub mod vault {
 
     /// Сжечь shares пользователя и вернуть их долю доступных активов vault.
     pub fn withdraw(ctx: Context<VaultUser>, shares: u64) -> Result<()> {
+        require!(
+            ctx.accounts.market.data_is_empty(),
+            VaultError::TradingVault
+        );
         require!(shares > 0, VaultError::ZeroAmount);
         require!(
             shares <= ctx.accounts.user_share_account.amount,
@@ -172,6 +184,20 @@ pub mod vault {
             received
         );
         Ok(())
+    }
+
+    /// Привязать пустой vault к CLMM-пулу и создать второе хранилище.
+    pub fn initialize_market(ctx: Context<InitializeMarket>) -> Result<()> {
+        swap::initialize(ctx)
+    }
+
+    /// Обменять фиксированное количество основного актива, соблюдая минимум выплаты.
+    pub fn swap<'info>(
+        ctx: Context<'info, Swap<'info>>,
+        amount_in: u64,
+        minimum_out: u64,
+    ) -> Result<()> {
+        swap::execute(ctx, amount_in, minimum_out)
     }
 }
 
@@ -303,6 +329,10 @@ pub struct VaultUser<'info> {
     pub user_share_account: InterfaceAccount<'info, TokenAccount>,
 
     pub token_program: Interface<'info, TokenInterface>,
+
+    /// CHECK: canonical PDA; наличие данных запрещает однотокеновый учёт shares.
+    #[account(seeds = [b"market", vault.key().as_ref()], bump)]
+    pub market: UncheckedAccount<'info>,
 }
 
 #[account]
@@ -343,4 +373,18 @@ pub enum VaultError {
     InsufficientShares,
     #[msg("Withdrawal is too small to receive an asset")]
     WithdrawTooSmall,
+    #[msg("Trading vault requires accounting for both assets before accepting shares")]
+    TradingVault,
+    #[msg("A trading market can only be enabled without outstanding shares")]
+    OutstandingShares,
+    #[msg("Pool, mints or token vaults do not match the configured market")]
+    InvalidPool,
+    #[msg("Minimum output must be greater than zero")]
+    ZeroMinimumOut,
+    #[msg("Not enough assets in the vault")]
+    InsufficientAssets,
+    #[msg("The swap must consume the full input amount")]
+    PartialSwap,
+    #[msg("Received less than the minimum output")]
+    SlippageExceeded,
 }

@@ -3,6 +3,14 @@ import BN from 'bn.js';
 import Decimal from 'decimal.js';
 import { LiquidityMathUtil, TickUtil } from '@raydium-io/raydium-sdk-v2';
 
+export function minimumOutput(expected, slippageBps = 100) {
+  assert(BN.isBN(expected) && expected.gt(new BN(0)), 'Ожидаемый выход должен быть положительным');
+  assert(Number.isInteger(slippageBps) && slippageBps >= 0 && slippageBps < 10000, 'Неверный slippage');
+  const minimum = expected.muln(10000 - slippageBps).divn(10000);
+  assert(minimum.gt(new BN(0)), 'Минимальный выход округлился до нуля');
+  return minimum;
+}
+
 export function quotePosition({ price, decimalsA, decimalsB, tickSpacing, amountA }) {
   const current = new Decimal(price);
   assert(current.isFinite() && current.gt(0), 'Цена должна быть положительной');

@@ -29,6 +29,7 @@
 | Неделя 9 — депозит и shares | Депозит в существующий vault, пропорциональные shares, учёт комиссии TMR и карточки пользователя | [vault/](vault/README.md#неделя-9-депозит-и-share-токены) | [Проверки и команды](vault/README.md#проверки-недели-9) |
 | Неделя 10 — CPI и вывод | Сжигание shares с подписью пользователя, пропорциональная выплата с подписью PDA и учёт комиссии TMR | [vault/](vault/README.md#неделя-10-cpi-и-вывод-из-vault) | [Проверки и защита](vault/README.md#проверки-недели-10) |
 | Неделя 11 — AMM и CLMM | Два тестовых токена, пул Raydium в Devnet по цене 1:1 и NFT-позиция в диапазоне примерно ±10% | [Скрипт](vault/client/clmm.mjs) | [Адреса, диапазон и защита](vault/README-week11.md) |
+| Неделя 12 — Swap через Raydium | Два хранилища vault, admin-only CPI swap, минимум выхода и откат по slippage | [Программа](vault/programs/vault/src/swap.rs) · [Клиент](vault/client/swap.mjs) | [Транзакции, цена и защита](vault/README-week12.md) |
 
 ### Неделя 3 — локальная копилка Piggy
 
@@ -139,6 +140,21 @@ Anchor проверяет подпись, адрес и владельца ак�
 [README недели 11](vault/README-week11.md), данные RPC — в
 [deployment-week11.json](vault/deployment-week11.json).
 
+### Неделя 12 — Swap через Raydium
+
+В той же программе vault создан торговый vault для A/B с двумя хранилищами.
+Администратор разрешает обмен, PDA vault подписывает CPI к Raydium CLMM.
+За 10 A получено 9,990320 B при минимуме 9,890416 B; цена изменилась
+с 1 до 0,9990638479 B за A. Отдельная транзакция с завышенным минимумом
+отклонена с `TooLittleOutputReceived` и полностью откатилась.
+
+[Успешный swap](https://explorer.solana.com/tx/31yJhfKiqAaAXWs2C6nappQjqwBNuKDBC65ragSLnxSGb71qjTJ86ucSS9MJYDEapsnDJkmSYxEgJiz7GUwHgM66?cluster=devnet),
+[отказ по slippage](https://explorer.solana.com/tx/aYzsM4noJeMaN3uQsWH3K93fy5zcMAgW2uLSDNuQ6ft9hqFUfVfpdfroDCFtyMNMFBWufcK3UhDpvggJ4Y6YmTn?cluster=devnet).
+Аккаунты TMR сохранены. Торговый vault пока использует средства администратора
+без выпуска shares; однотокеновые операции с shares для него запрещены.
+Подробности — в [README недели 12](vault/README-week12.md), данные RPC —
+в [deployment-week12.json](vault/deployment-week12.json).
+
 ## Структура репозитория
 
 ```text
@@ -158,7 +174,7 @@ almau-solana/
 ├── counter/               # неделя 5: Anchor Counter, IDL, клиент и тесты
 ├── profile/               # неделя 6: Anchor Profile, IDL, клиент и тесты
 ├── token/                 # неделя 7: клиент Token-2022
-├── vault/                 # недели 8–11: Anchor vault, клиент CLMM Raydium, IDL и тесты
+├── vault/                 # недели 8–12: Anchor vault, CLMM, CPI swap, IDL и тесты
 ├── docs/
 │   └── piggy-vault.md     # подробное руководство и разбор устройства Piggy
 └── reports/
@@ -260,7 +276,7 @@ Devnet. Собственный кошелёк позволяет вызвать 
 | Anchor Counter | [HN2SRai9T3z7Rsw2avdz7Ns5tewqHctg9JeTeiSU6jTW](https://explorer.solana.com/address/HN2SRai9T3z7Rsw2avdz7Ns5tewqHctg9JeTeiSU6jTW?cluster=devnet) |
 | Anchor Profile | [EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP](https://explorer.solana.com/address/EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP?cluster=devnet) |
 | Mint TMR | [Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31](https://explorer.solana.com/address/Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31?cluster=devnet) |
-| Anchor Vault — недели 8–10 | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
+| Anchor Vault — недели 8–12 | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
 | Raydium CLMM-пул — неделя 11 | [6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY](https://explorer.solana.com/address/6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY?cluster=devnet) |
 
 Результаты предыдущих работ зафиксированы в исходных отчётах.
@@ -269,6 +285,13 @@ Devnet. Собственный кошелёк позволяет вызвать 
 Состояние аккаунтов и доступность истории Devnet могут измениться.
 
 ## Проверки перед публикацией
+
+24 октября 2026 года для недели 12 прошли **29 тестов LiteSVM** с реальным
+байткодом Raydium, **8 JavaScript-тестов**, проверки CLI и полный локальный
+сценарий. В Devnet выполнены успешный swap и намеренно отклонённый обмен,
+проверены подписи CPI, изменение цены, откат всех данных и сохранность TMR.
+Команды тестов и публичного снимка Raydium — в [README недели 12](vault/README-week12.md).
+Остальные подпроекты при выполнении этой недели повторно не тестировались.
 
 24 октября 2026 года для недели 11 прошли **5 тестов расчётов CLMM**.
 В Devnet созданы и проверены два mint, пул, tick arrays и NFT-позиция,
