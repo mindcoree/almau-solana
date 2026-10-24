@@ -2,15 +2,23 @@
   "name": "vault-skeleton-client",
   "private": true,
   "type": "module",
-  "description": "Недели 8–10: токеновый vault с депозитом, shares и выводом через CPI",
+  "description": "Недели 8–11: токеновый vault и CLMM-пул Raydium в Devnet",
   "scripts": {
     "demo": "node vault.mjs",
     "show": "node vault.mjs show",
     "deposit": "node vault.mjs deposit",
-    "withdraw": "node vault.mjs withdraw"
+    "withdraw": "node vault.mjs withdraw",
+    "clmm:demo": "node clmm.mjs demo",
+    "clmm:show": "node clmm.mjs show",
+    "test:clmm": "node --test clmm.test.mjs"
   },
   "dependencies": {
     "@anchor-lang/core": "1.2.0",
-    "@solana/spl-token": "^0.4.15"
+    "@raydium-io/raydium-sdk-v2": "0.2.70-alpha",
+    "@solana/spl-token": "^0.4.15",
+    "@solana/web3.js": "1.99.0",
+    "bn.js": "5.2.5",
+    "bs58": "6.0.0",
+    "decimal.js": "10.6.0"
   }
 }

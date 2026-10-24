@@ -7,7 +7,7 @@
 **Год:** 2026
 
 Учебный репозиторий по разработке на Solana: от локальной CLI-копилки на Rust
-до программ в Devnet, собственного токена TMR, депозитов и вывода из токенового vault.
+до программ в Devnet, токенового vault и собственного CLMM-пула Raydium.
 Здесь собраны исходный код, клиенты на JavaScript, тесты и шесть отчётов
 с результатами работ.
 
@@ -28,6 +28,7 @@
 | Неделя 8 — каркас vault | Программа в Devnet: настройки, share-mint, хранилище TMR и позиции пользователей на PDA | [vault/](vault/README.md) | [Схема и защита](vault/README.md#схема-аккаунтов) |
 | Неделя 9 — депозит и shares | Депозит в существующий vault, пропорциональные shares, учёт комиссии TMR и карточки пользователя | [vault/](vault/README.md#неделя-9-депозит-и-share-токены) | [Проверки и команды](vault/README.md#проверки-недели-9) |
 | Неделя 10 — CPI и вывод | Сжигание shares с подписью пользователя, пропорциональная выплата с подписью PDA и учёт комиссии TMR | [vault/](vault/README.md#неделя-10-cpi-и-вывод-из-vault) | [Проверки и защита](vault/README.md#проверки-недели-10) |
+| Неделя 11 — AMM и CLMM | Два тестовых токена, пул Raydium в Devnet по цене 1:1 и NFT-позиция в диапазоне примерно ±10% | [Скрипт](vault/client/clmm.mjs) | [Адреса, диапазон и защита](vault/README-week11.md) |
 
 ### Неделя 3 — локальная копилка Piggy
 
@@ -125,6 +126,19 @@ Anchor проверяет подпись, адрес и владельца ак�
 Оба завершены со статусом `finalized`; балансы, комиссии и внутренние вызовы —
 в [снимке недели 10](vault/deployment-week10.json).
 
+### Неделя 11 — AMM и концентрированная ликвидность
+
+Через официальный Raydium SDK созданы два SPL-токена с выпуском по 100000,
+[CLMM-пул](https://explorer.solana.com/address/6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY?cluster=devnet)
+и [позиция кошелька](https://explorer.solana.com/address/BqC3iXcjMLENa3kQGN4ZvUTPb3cGwHSzuKjXf7Cn4T5w?cluster=devnet).
+Начальная и проверенная цена — 1 B за A, границы — 0,899429–1,100754.
+Внесены 1000 A и 1101,433008 B; NFT принадлежит тому же учебному кошельку.
+Четыре транзакции имеют статус `finalized`.
+
+Скрипт, команды, точные адреса и объяснение диапазона — в
+[README недели 11](vault/README-week11.md), данные RPC — в
+[deployment-week11.json](vault/deployment-week11.json).
+
 ## Структура репозитория
 
 ```text
@@ -144,7 +158,7 @@ almau-solana/
 ├── counter/               # неделя 5: Anchor Counter, IDL, клиент и тесты
 ├── profile/               # неделя 6: Anchor Profile, IDL, клиент и тесты
 ├── token/                 # неделя 7: клиент Token-2022
-├── vault/                 # недели 8–10: Anchor vault, депозит, shares, вывод, IDL и тесты
+├── vault/                 # недели 8–11: Anchor vault, клиент CLMM Raydium, IDL и тесты
 ├── docs/
 │   └── piggy-vault.md     # подробное руководство и разбор устройства Piggy
 └── reports/
@@ -247,6 +261,7 @@ Devnet. Собственный кошелёк позволяет вызвать 
 | Anchor Profile | [EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP](https://explorer.solana.com/address/EuErHgT1GbzogqFpXhCdce5M9U1bAxZc8QwmcvkVLSuP?cluster=devnet) |
 | Mint TMR | [Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31](https://explorer.solana.com/address/Cq9bsK12BiRunwpBNhGG9K8Di9QX4G2xfCcoG7TmmU31?cluster=devnet) |
 | Anchor Vault — недели 8–10 | [J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN](https://explorer.solana.com/address/J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN?cluster=devnet) |
+| Raydium CLMM-пул — неделя 11 | [6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY](https://explorer.solana.com/address/6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY?cluster=devnet) |
 
 Результаты предыдущих работ зафиксированы в исходных отчётах.
 Аккаунты и транзакции недели 8 — в [README vault](vault/README.md#devnet-и-explorer)
@@ -254,6 +269,13 @@ Devnet. Собственный кошелёк позволяет вызвать 
 Состояние аккаунтов и доступность истории Devnet могут измениться.
 
 ## Проверки перед публикацией
+
+24 октября 2026 года для недели 11 прошли **5 тестов расчётов CLMM**.
+В Devnet созданы и проверены два mint, пул, tick arrays и NFT-позиция,
+проверены все четыре транзакции и их финальные статусы. Повторный запуск
+не создаёт дополнительные аккаунты и токены. Просмотр CLMM и прежнего vault
+работает без файла кошелька. Подробности — в [README недели 11](vault/README-week11.md).
+Rust-программы в этой работе повторно не тестировались.
 
 24 октября 2026 года для недели 10 прошёл **21 тест LiteSVM**, проверены
 аргументы CLI и локальный цикл с частичным и полным выводом, комиссией TMR
