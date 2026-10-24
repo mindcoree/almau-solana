@@ -145,7 +145,16 @@ impl Env {
     fn send(&mut self, ix: Instruction, signer: &Keypair) -> Result<(), String> {
         self.svm.expire_blockhash();
         let tx = Transaction::new_signed_with_payer(
-            &[ix],
+            &[
+                Instruction {
+                    program_id: "ComputeBudget111111111111111111111111111111"
+                        .parse()
+                        .unwrap(),
+                    accounts: vec![],
+                    data: [vec![2], 900_000u32.to_le_bytes().to_vec()].concat(),
+                },
+                ix,
+            ],
             Some(&signer.pubkey()),
             &[signer],
             self.svm.latest_blockhash(),
@@ -235,6 +244,8 @@ impl Env {
                 user_share_account: shares,
                 token_program: self.token_program,
                 market: pda(&[b"market", self.vault.as_ref()]),
+                quote_vault: pda(&[b"quote_vault", self.vault.as_ref()]),
+                position_state: pda(&[b"vault_position", self.vault.as_ref()]),
             },
         )
     }
@@ -626,9 +637,14 @@ fn outstanding_shares_prevent_switching_to_trading_mode() {
 }
 
 #[test]
-fn trading_mode_blocks_single_asset_shares_and_cannot_be_hidden_by_a_fake_marker() {
+fn quote_assets_block_shares_and_cannot_be_hidden_by_a_fake_marker() {
     let mut c = ClmmEnv::new();
     c.enable();
+    c.fund();
+    let admin = c.env.admin.insecure_clone();
+    c.env
+        .send(c.swap(&admin.pubkey(), 1_000_000, 1), &admin)
+        .unwrap();
     let admin = c.env.admin.insecure_clone();
     let (source, shares) = c.env.user(&admin, 20_000_000);
     let watched = [
@@ -1504,4 +1520,476 @@ fn the_admin_cannot_take_control_of_or_close_the_token_storage() {
     .unwrap();
     assert!(env.send(convert(close), &admin).is_err());
     assert!(env.svm.get_account(&addr(&env.token_vault)).is_some());
+}
+
+impl ClmmEnv {
+    fn fund_b(&mut self) {
+        let mut account = self.env.svm.get_account(&addr(&self.quote_vault)).unwrap();
+        let mut token = TokenAccount::unpack(&account.data).unwrap();
+        token.amount = 100_000_000;
+        TokenAccount::pack(token, &mut account.data).unwrap();
+        self.env
+            .svm
+            .set_account(addr(&self.quote_vault), account)
+            .unwrap();
+    }
+
+    fn lp_addresses(
+        &self,
+        nft: Pubkey,
+        lower: i32,
+        upper: i32,
+    ) -> (Pubkey, Pubkey, Pubkey, Pubkey, Pubkey) {
+        let ray = vault::raydium_clmm::ID;
+        let pool = self.key("poolState");
+        let personal = Pubkey::find_program_address(&[b"position", nft.as_ref()], &ray).0;
+        let protocol = Pubkey::find_program_address(
+            &[
+                b"position",
+                pool.as_ref(),
+                &lower.to_be_bytes(),
+                &upper.to_be_bytes(),
+            ],
+            &ray,
+        )
+        .0;
+        let array = |tick| {
+            Pubkey::find_program_address(
+                &[
+                    b"tick_array",
+                    pool.as_ref(),
+                    &vault::tick_array_start(tick, 10).to_be_bytes(),
+                ],
+                &ray,
+            )
+            .0
+        };
+        let ata = Pubkey::find_program_address(
+            &[
+                self.env.vault.as_ref(),
+                anchor_spl::token_2022::ID.as_ref(),
+                nft.as_ref(),
+            ],
+            &anchor_spl::associated_token::ID,
+        )
+        .0;
+        (personal, protocol, array(lower), array(upper), ata)
+    }
+
+    fn lp_open(
+        &self,
+        admin: &Address,
+        nft: Pubkey,
+        lower: i32,
+        upper: i32,
+        maximum: u64,
+    ) -> Instruction {
+        let (personal, protocol, lower_array, upper_array, ata) =
+            self.lp_addresses(nft, lower, upper);
+        let mut ix = vault_instruction(
+            vault_ix::OpenClmmPosition {
+                tick_lower: lower,
+                tick_upper: upper,
+                liquidity: 100_000_000,
+                maximum_a: maximum,
+                maximum_b: maximum,
+                rent_budget: 200_000_000,
+            },
+            accounts::OpenClmmPosition {
+                admin: key(admin),
+                vault: self.env.vault,
+                market: self.market,
+                position_state: pda(&[b"vault_position", self.env.vault.as_ref()]),
+                liquidity_payer: pda(&[b"liquidity_payer", self.env.vault.as_ref()]),
+                asset_mint: self.env.asset_mint,
+                quote_mint: self.key("quoteMint"),
+                token_vault: self.env.token_vault,
+                quote_vault: self.quote_vault,
+                pool_state: self.key("poolState"),
+                nft_mint: nft,
+                nft_account: ata,
+                personal_position: personal,
+                protocol_position: protocol,
+                pool_vault_a: self.key("inputVault"),
+                pool_vault_b: self.key("outputVault"),
+                tick_array_lower: lower_array,
+                tick_array_upper: upper_array,
+                clmm_program: vault::raydium_clmm::ID,
+                token_program: anchor_spl::token::ID,
+                token_program_2022: anchor_spl::token_2022::ID,
+                associated_token_program: anchor_spl::associated_token::ID,
+                rent: "SysvarRent111111111111111111111111111111111"
+                    .parse()
+                    .unwrap(),
+                system_program: anchor_lang::system_program::ID,
+            },
+        );
+        ix.accounts
+            .push(AccountMeta::new(addr(&self.key("remaining0")), false));
+        ix
+    }
+
+    fn lp_manage(&self, admin: &Address, nft: Pubkey, close: Option<(u64, u64)>) -> Instruction {
+        let (personal, protocol, lower, upper, ata) = self.lp_addresses(nft, -500, 500);
+        let metas = accounts::ManageClmmPosition {
+            admin: key(admin),
+            vault: self.env.vault,
+            market: self.market,
+            position_state: pda(&[b"vault_position", self.env.vault.as_ref()]),
+            asset_mint: self.env.asset_mint,
+            quote_mint: self.key("quoteMint"),
+            token_vault: self.env.token_vault,
+            quote_vault: self.quote_vault,
+            pool_state: self.key("poolState"),
+            nft_mint: nft,
+            nft_account: ata,
+            personal_position: personal,
+            protocol_position: protocol,
+            pool_vault_a: self.key("inputVault"),
+            pool_vault_b: self.key("outputVault"),
+            tick_array_lower: lower,
+            tick_array_upper: upper,
+            clmm_program: vault::raydium_clmm::ID,
+            token_program: anchor_spl::token::ID,
+            token_program_2022: anchor_spl::token_2022::ID,
+            memo_program: "MemoSq4gqABAXKb96qnH8TysNcWxMyWCqXgDLGmfcHr"
+                .parse()
+                .unwrap(),
+            system_program: anchor_lang::system_program::ID,
+        };
+        let mut ix = if let Some((minimum_a, minimum_b)) = close {
+            vault_instruction(
+                vault_ix::CloseClmmPosition {
+                    minimum_a,
+                    minimum_b,
+                },
+                metas,
+            )
+        } else {
+            vault_instruction(vault_ix::CollectFees {}, metas)
+        };
+        ix.accounts
+            .push(AccountMeta::new(addr(&self.key("remaining0")), false));
+        ix
+    }
+
+    fn send_lp(&mut self, ix: Instruction, signer: &Keypair, nft: &Keypair) -> Result<(), String> {
+        self.env.svm.expire_blockhash();
+        let compute = Instruction {
+            program_id: "ComputeBudget111111111111111111111111111111"
+                .parse()
+                .unwrap(),
+            accounts: vec![],
+            data: [vec![2], 900_000u32.to_le_bytes().to_vec()].concat(),
+        };
+        let tx = Transaction::new_signed_with_payer(
+            &[compute, ix],
+            Some(&signer.pubkey()),
+            &[signer, nft],
+            self.env.svm.latest_blockhash(),
+        );
+        self.env
+            .svm
+            .send_transaction(tx)
+            .map(|_| ())
+            .map_err(|e| format!("{:?}\n{}", e.err, e.meta.logs.join("\n")))
+    }
+}
+
+#[test]
+fn clmm_open_harvest_close_restores_authorities_and_allows_reopening() {
+    let mut c = ClmmEnv::new();
+    c.enable();
+    c.fund();
+    c.fund_b();
+    let admin = c.env.admin.insecure_clone();
+    let nft = Keypair::new();
+    let mint = key(&nft.pubkey());
+    let (personal, _, _, _, ata) = c.lp_addresses(mint, -500, 500);
+    let a = c.env.balance(c.env.token_vault);
+    let b = c.env.balance(c.quote_vault);
+    c.send_lp(
+        c.lp_open(&admin.pubkey(), mint, -500, 500, 20_000_000),
+        &admin,
+        &nft,
+    )
+    .unwrap();
+    assert!(c.env.balance(c.env.token_vault) < a && c.env.balance(c.quote_vault) < b);
+    assert_eq!(c.env.balance(ata), 1);
+    for token in [ata, c.env.token_vault, c.quote_vault] {
+        let account = c.env.svm.get_account(&addr(&token)).unwrap();
+        assert_eq!(
+            StateWithExtensions::<TokenAccount>::unpack(&account.data)
+                .unwrap()
+                .base
+                .owner,
+            c.env.vault
+        );
+    }
+    let payer = pda(&[b"liquidity_payer", c.env.vault.as_ref()]);
+    assert_eq!(
+        c.env
+            .svm
+            .get_account(&addr(&payer))
+            .map_or(0, |a| a.lamports),
+        0
+    );
+    let lp_before = c.env.svm.get_account(&addr(&personal)).unwrap();
+    let mut swap = c.swap(&admin.pubkey(), 10_000_000, 1);
+    swap.accounts.truncate(16);
+    let (_, _, lo, hi, _) = c.lp_addresses(mint, -500, 500);
+    let tick = c.fixture["quote"]["tickBefore"].as_i64().unwrap_or(0);
+    let arrays = if tick >= 0 { vec![hi, lo] } else { vec![lo] };
+    swap.accounts
+        .push(AccountMeta::new(addr(&c.key("remaining0")), false));
+    for account in arrays {
+        swap.accounts.push(AccountMeta::new(addr(&account), false));
+    }
+    c.env.send(swap, &admin).unwrap();
+    let before_a = c.env.balance(c.env.token_vault);
+    c.env
+        .send(c.lp_manage(&admin.pubkey(), mint, None), &admin)
+        .unwrap();
+    assert!(
+        c.env.balance(c.env.token_vault) > before_a,
+        "fees must be collected"
+    );
+    let lp_after = c.env.svm.get_account(&addr(&personal)).unwrap();
+    let decode = |a: &Account| {
+        vault::raydium_clmm::accounts::PersonalPositionState::try_deserialize(
+            &mut a.data.as_slice(),
+        )
+        .unwrap()
+    };
+    assert_eq!(decode(&lp_before).liquidity, decode(&lp_after).liquidity);
+    c.env
+        .send(c.lp_manage(&admin.pubkey(), mint, Some((1, 1))), &admin)
+        .unwrap();
+    for account in [
+        personal,
+        ata,
+        mint,
+        pda(&[b"vault_position", c.env.vault.as_ref()]),
+    ] {
+        assert!(c
+            .env
+            .svm
+            .get_account(&addr(&account))
+            .is_none_or(|a| a.data.is_empty()));
+    }
+    let next = Keypair::new();
+    c.send_lp(
+        c.lp_open(&admin.pubkey(), key(&next.pubkey()), -600, 400, 20_000_000),
+        &admin,
+        &next,
+    )
+    .unwrap();
+}
+
+#[test]
+fn clmm_limits_and_admin_checks_are_atomic() {
+    let mut c = ClmmEnv::new();
+    c.enable();
+    c.fund();
+    c.fund_b();
+    let admin = c.env.admin.insecure_clone();
+    let nft = Keypair::new();
+    let mint = key(&nft.pubkey());
+    let watched = c.watched();
+    let before = c.env.snapshot(&watched);
+    let error = c
+        .send_lp(c.lp_open(&admin.pubkey(), mint, -500, 500, 1), &admin, &nft)
+        .unwrap_err();
+    assert!(error.contains("PriceSlippageCheck"), "{error}");
+    assert_eq!(before, c.env.snapshot(&watched));
+    assert!(c
+        .env
+        .svm
+        .get_account(&addr(&pda(&[b"vault_position", c.env.vault.as_ref()])))
+        .is_none());
+    let stranger = Keypair::new();
+    c.env
+        .svm
+        .airdrop(&stranger.pubkey(), 1_000_000_000)
+        .unwrap();
+    let error = c
+        .send_lp(
+            c.lp_open(&stranger.pubkey(), mint, -500, 500, 20_000_000),
+            &stranger,
+            &nft,
+        )
+        .unwrap_err();
+    assert!(error.contains("ConstraintHasOne"), "{error}");
+    c.send_lp(
+        c.lp_open(&admin.pubkey(), mint, -500, 500, 20_000_000),
+        &admin,
+        &nft,
+    )
+    .unwrap();
+    let before = c.env.snapshot(&watched);
+    let error = c
+        .env
+        .send(
+            c.lp_manage(&admin.pubkey(), mint, Some((u64::MAX, u64::MAX))),
+            &admin,
+        )
+        .unwrap_err();
+    assert!(error.contains("PriceSlippageCheck"), "{error}");
+    assert_eq!(before, c.env.snapshot(&watched));
+    for close in [None, Some((0, 0))] {
+        let error = c
+            .env
+            .send(c.lp_manage(&stranger.pubkey(), mint, close), &stranger)
+            .unwrap_err();
+        assert!(error.contains("ConstraintHasOne"), "{error}");
+    }
+    let (source, shares) = c.env.user(&admin, 1_000_000);
+    let error = c
+        .env
+        .send(c.env.deposit(&admin.pubkey(), source, shares, 1), &admin)
+        .unwrap_err();
+    assert!(error.contains("TradingVault"), "{error}");
+}
+
+#[test]
+fn idle_market_allows_shares_and_reverse_swap_returns_all_quote() {
+    let mut c = ClmmEnv::new();
+    c.enable();
+    c.fund();
+    let admin = c.env.admin.insecure_clone();
+    let (source, shares) = c.env.user(&admin, 1_000_000);
+    c.env
+        .send(
+            c.env.deposit(&admin.pubkey(), source, shares, 1_000_000),
+            &admin,
+        )
+        .unwrap();
+    c.env
+        .send(
+            c.env.withdraw(&admin.pubkey(), source, shares, 1_000_000),
+            &admin,
+        )
+        .unwrap();
+    c.fund();
+    c.env
+        .send(c.swap(&admin.pubkey(), 10_000_000, 1), &admin)
+        .unwrap();
+    let mut back = c.swap(&admin.pubkey(), 1, 1);
+    back.data = vault_ix::SwapBack {
+        amount_in: c.env.balance(c.quote_vault),
+        minimum_out: 1,
+    }
+    .data();
+    c.env.send(back, &admin).unwrap();
+    assert_eq!(c.env.balance(c.quote_vault), 0);
+    c.env
+        .send(
+            c.env.deposit(&admin.pubkey(), source, shares, 1_000_000),
+            &admin,
+        )
+        .unwrap();
+    c.env
+        .send(
+            c.env.withdraw(&admin.pubkey(), source, shares, 1_000_000),
+            &admin,
+        )
+        .unwrap();
+}
+
+#[test]
+fn clmm_rejects_invalid_ranges_duplicate_positions_and_substituted_accounts() {
+    let mut c = ClmmEnv::new();
+    c.enable();
+    c.fund();
+    c.fund_b();
+    let admin = c.env.admin.insecure_clone();
+    let nft = Keypair::new();
+    let mint = key(&nft.pubkey());
+    for (lower, upper) in [(500, -500), (-501, 500), (-500, 501)] {
+        let error = c
+            .send_lp(
+                c.lp_open(&admin.pubkey(), mint, lower, upper, 20_000_000),
+                &admin,
+                &nft,
+            )
+            .unwrap_err();
+        assert!(error.contains("InvalidTicks"), "{error}");
+    }
+    let mut zero = c.lp_open(&admin.pubkey(), mint, -500, 500, 20_000_000);
+    zero.data = vault_ix::OpenClmmPosition {
+        tick_lower: -500,
+        tick_upper: 500,
+        liquidity: 0,
+        maximum_a: 20_000_000,
+        maximum_b: 20_000_000,
+        rent_budget: 200_000_000,
+    }
+    .data();
+    assert!(c
+        .send_lp(zero, &admin, &nft)
+        .unwrap_err()
+        .contains("ZeroLiquidity"));
+    c.send_lp(
+        c.lp_open(&admin.pubkey(), mint, -500, 500, 20_000_000),
+        &admin,
+        &nft,
+    )
+    .unwrap();
+    let next = Keypair::new();
+    assert!(c
+        .send_lp(
+            c.lp_open(&admin.pubkey(), key(&next.pubkey()), -500, 500, 20_000_000),
+            &admin,
+            &next
+        )
+        .is_err());
+    let (personal, _, _, _, ata) = c.lp_addresses(mint, -500, 500);
+    let mut watched = c.watched();
+    watched.extend([
+        personal,
+        mint,
+        ata,
+        pda(&[b"vault_position", c.env.vault.as_ref()]),
+    ]);
+    let before = c.env.snapshot(&watched);
+    let fake = key(&Keypair::new().pubkey());
+    let data = c.env.svm.get_account(&addr(&personal)).unwrap();
+    c.env.svm.set_account(addr(&fake), data).unwrap();
+    let mut wrong = c.lp_manage(&admin.pubkey(), mint, None);
+    wrong
+        .accounts
+        .iter_mut()
+        .find(|m| m.pubkey == addr(&personal))
+        .unwrap()
+        .pubkey = addr(&fake);
+    assert!(c
+        .env
+        .send(wrong, &admin)
+        .unwrap_err()
+        .contains("ConstraintHasOne"));
+    let mut wrong = c.lp_manage(&admin.pubkey(), mint, Some((0, 0)));
+    wrong
+        .accounts
+        .iter_mut()
+        .find(|m| m.pubkey == addr(&c.env.token_vault))
+        .unwrap()
+        .pubkey = addr(&c.quote_vault);
+    assert!(c.env.send(wrong, &admin).is_err());
+    assert_eq!(before, c.env.snapshot(&watched));
+    // Даже при нулевом остатке B сама открытая позиция запрещает операции с shares.
+    let mut account = c.env.svm.get_account(&addr(&c.quote_vault)).unwrap();
+    let mut token = TokenAccount::unpack(&account.data).unwrap();
+    token.amount = 0;
+    TokenAccount::pack(token, &mut account.data).unwrap();
+    c.env
+        .svm
+        .set_account(addr(&c.quote_vault), account)
+        .unwrap();
+    let (source, shares) = c.env.user(&admin, 1_000_000);
+    for ix in [
+        c.env.deposit(&admin.pubkey(), source, shares, 1),
+        c.env.withdraw(&admin.pubkey(), source, shares, 1),
+    ] {
+        assert!(c.env.send(ix, &admin).unwrap_err().contains("TradingVault"));
+    }
 }

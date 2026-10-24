@@ -2,7 +2,7 @@
   "name": "vault-skeleton-client",
   "private": true,
   "type": "module",
-  "description": "Недели 8–12: токеновый vault и CPI swap через Raydium CLMM в Devnet",
+  "description": "Недели 8–13: токеновый vault, swap и CLMM-позиция через Raydium CPI",
   "scripts": {
     "demo": "node vault.mjs",
     "show": "node vault.mjs show",
@@ -15,7 +15,14 @@
     "swap:demo": "node swap.mjs demo",
     "swap:quote": "node swap.mjs quote",
     "swap:show": "node swap.mjs show",
-    "test:swap": "node --test swap.test.mjs"
+    "test:swap": "node --test swap.test.mjs",
+    "position:demo": "node position.mjs demo",
+    "position:show": "node position.mjs show",
+    "position:open": "node position.mjs open",
+    "position:collect": "node position.mjs collect",
+    "position:close": "node position.mjs close",
+    "position:back": "node position.mjs back",
+    "position:verify": "node position-verify.mjs"
   },
   "dependencies": {
     "@anchor-lang/core": "1.2.0",

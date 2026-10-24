@@ -1,4 +1,4 @@
-//! Недели 8–12: vault, shares и обмен через Raydium CLMM с подписью PDA.
+//! Недели 8–13: vault, обмен и управление CLMM-позицией с подписью PDA.
 use anchor_lang::prelude::*;
 use anchor_spl::token_interface::{
     self, Burn, Mint, MintTo, TokenAccount, TokenInterface, TransferChecked,
@@ -9,6 +9,8 @@ declare_program!(raydium_clmm);
 
 mod swap;
 pub use swap::*;
+mod position;
+pub use position::*;
 
 #[program]
 pub mod vault {
@@ -40,10 +42,7 @@ pub mod vault {
 
     /// Зачислить фактически полученные токены и выпустить долю по цене до депозита.
     pub fn deposit(ctx: Context<VaultUser>, amount: u64) -> Result<()> {
-        require!(
-            ctx.accounts.market.data_is_empty(),
-            VaultError::TradingVault
-        );
+        position::require_single_asset(&ctx.accounts)?;
         require!(amount > 0, VaultError::ZeroAmount);
         let assets_before = ctx.accounts.token_vault.amount;
         let supply = ctx.accounts.share_mint.supply;
@@ -117,10 +116,7 @@ pub mod vault {
 
     /// Сжечь shares пользователя и вернуть их долю доступных активов vault.
     pub fn withdraw(ctx: Context<VaultUser>, shares: u64) -> Result<()> {
-        require!(
-            ctx.accounts.market.data_is_empty(),
-            VaultError::TradingVault
-        );
+        position::require_single_asset(&ctx.accounts)?;
         require!(shares > 0, VaultError::ZeroAmount);
         require!(
             shares <= ctx.accounts.user_share_account.amount,
@@ -198,6 +194,46 @@ pub mod vault {
         minimum_out: u64,
     ) -> Result<()> {
         swap::execute(ctx, amount_in, minimum_out)
+    }
+
+    pub fn swap_back<'info>(
+        ctx: Context<'info, Swap<'info>>,
+        amount_in: u64,
+        minimum_out: u64,
+    ) -> Result<()> {
+        swap::execute_back(ctx, amount_in, minimum_out)
+    }
+
+    pub fn open_clmm_position<'info>(
+        ctx: Context<'info, OpenClmmPosition<'info>>,
+        tick_lower: i32,
+        tick_upper: i32,
+        liquidity: u128,
+        maximum_a: u64,
+        maximum_b: u64,
+        rent_budget: u64,
+    ) -> Result<()> {
+        position::open_clmm(
+            ctx,
+            tick_lower,
+            tick_upper,
+            liquidity,
+            maximum_a,
+            maximum_b,
+            rent_budget,
+        )
+    }
+
+    pub fn collect_fees<'info>(ctx: Context<'info, ManageClmmPosition<'info>>) -> Result<()> {
+        position::collect_clmm(ctx)
+    }
+
+    pub fn close_clmm_position<'info>(
+        ctx: Context<'info, ManageClmmPosition<'info>>,
+        minimum_a: u64,
+        minimum_b: u64,
+    ) -> Result<()> {
+        position::close_clmm(ctx, minimum_a, minimum_b)
     }
 }
 
@@ -330,9 +366,17 @@ pub struct VaultUser<'info> {
 
     pub token_program: Interface<'info, TokenInterface>,
 
-    /// CHECK: canonical PDA; наличие данных запрещает однотокеновый учёт shares.
+    /// CHECK: canonical market PDA; данные проверяются перед однотокеновым учётом.
     #[account(seeds = [b"market", vault.key().as_ref()], bump)]
     pub market: UncheckedAccount<'info>,
+
+    /// CHECK: canonical vault; при наличии рынка проверяются token owner, mint и нулевой баланс.
+    #[account(seeds = [b"quote_vault", vault.key().as_ref()], bump)]
+    pub quote_vault: UncheckedAccount<'info>,
+
+    /// CHECK: canonical marker; ненулевые данные означают открытую CLMM-позицию.
+    #[account(seeds = [b"vault_position", vault.key().as_ref()], bump)]
+    pub position_state: UncheckedAccount<'info>,
 }
 
 #[account]
@@ -373,7 +417,7 @@ pub enum VaultError {
     InsufficientShares,
     #[msg("Withdrawal is too small to receive an asset")]
     WithdrawTooSmall,
-    #[msg("Trading vault requires accounting for both assets before accepting shares")]
+    #[msg("Close the CLMM position and convert all quote assets before using shares")]
     TradingVault,
     #[msg("A trading market can only be enabled without outstanding shares")]
     OutstandingShares,
@@ -387,4 +431,10 @@ pub enum VaultError {
     PartialSwap,
     #[msg("Received less than the minimum output")]
     SlippageExceeded,
+    #[msg("Liquidity and rent budget must be positive")]
+    ZeroLiquidity,
+    #[msg("Ticks must be ordered and aligned to the pool tick spacing")]
+    InvalidTicks,
+    #[msg("Position or NFT does not belong to this vault and pool")]
+    PositionMismatch,
 }

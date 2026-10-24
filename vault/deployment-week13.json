@@ -1,0 +1,788 @@
+{
+  "week": 13,
+  "cluster": "devnet",
+  "program": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+  "admin": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+  "vault": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+  "market": "CxGk323DcH8ME6DJYvqrW5iSdVfWb3XhENfuq39xnzQi",
+  "pool": "6YkuE21oSujgDiG7G1JqwvfvJD3f2Ud5KkViDXysjNBY",
+  "assetMint": "99DCQk2bTNf51imVsZmekBvQe3WzMBzSnnbFheJ6XmhG",
+  "quoteMint": "EweCVMPvYeFojEmbphGnMchjAvLVMLaFbt3emjyNqrWB",
+  "tokenVault": "G7gy5do6ZKzo3CwFmRQY77ZmTJAUZWbukuPXjDwoc22U",
+  "quoteVault": "8eEHPwsPkXLZApCKNK1ZGVkgTrpuQVmk7dfNfRJk15wv",
+  "positionState": "7staF1MQdNoVBxZKufopWUX2DHsbo9EXRbmTmuopGHXe",
+  "liquidityPayer": "Au1sH8AuzqVo7V8poVTCEFixmzLFEBRWRKnLMb8wkuwh",
+  "transactions": {
+    "openInitial": {
+      "signature": "3aCCNZfRdowJpFVWy3ZBi4L8AfKbZtqBbFizWCuFLHrm6ZfnGEVJUUHuXqbXyzmAnjDMC1i28zzyLiKU5WFoHS63",
+      "lastValidBlockHeight": 501708455,
+      "serializedBytes": 1124,
+      "unitsConsumed": 170838,
+      "explorer": "https://explorer.solana.com/tx/3aCCNZfRdowJpFVWy3ZBi4L8AfKbZtqBbFizWCuFLHrm6ZfnGEVJUUHuXqbXyzmAnjDMC1i28zzyLiKU5WFoHS63?cluster=devnet",
+      "slot": 514505379,
+      "confirmationStatus": "finalized"
+    },
+    "fundTrader": {
+      "signature": "5NSVDDtdifjHxbLMFuWdrXa3bHsLHgDBz6nBPqA27FxcDo3bSENhnnQYr3vmjrAQTj6J9sjVNjeLqFAt3Qe5R6G8",
+      "lastValidBlockHeight": 501708465,
+      "serializedBytes": 567,
+      "unitsConsumed": 35042,
+      "explorer": "https://explorer.solana.com/tx/5NSVDDtdifjHxbLMFuWdrXa3bHsLHgDBz6nBPqA27FxcDo3bSENhnnQYr3vmjrAQTj6J9sjVNjeLqFAt3Qe5R6G8?cluster=devnet",
+      "slot": 514505388,
+      "confirmationStatus": "finalized"
+    },
+    "traderSwapA1": {
+      "signature": "2Zxxz1QpVRE2BKkW1huN2RBep4izCe4bxQyKDeBt2XTULAtNNX7TLv5bpD4z2Bz9hYeavu22PJ2eUTqUNXRSWVJk",
+      "lastValidBlockHeight": 501708477,
+      "serializedBytes": 781,
+      "unitsConsumed": 47149,
+      "explorer": "https://explorer.solana.com/tx/2Zxxz1QpVRE2BKkW1huN2RBep4izCe4bxQyKDeBt2XTULAtNNX7TLv5bpD4z2Bz9hYeavu22PJ2eUTqUNXRSWVJk?cluster=devnet",
+      "slot": 514505399,
+      "confirmationStatus": "finalized"
+    },
+    "traderSwapA2": {
+      "signature": "51Wyvv4vGJaMRJn8EDYgBBLXMtTdLFiEtYaepvS26NDXvHPTLGCNHFYMdPmdxPCDFkYpLmhz2XUpy5QKj2Tz4LX7",
+      "lastValidBlockHeight": 501708509,
+      "serializedBytes": 781,
+      "unitsConsumed": 47105,
+      "explorer": "https://explorer.solana.com/tx/51Wyvv4vGJaMRJn8EDYgBBLXMtTdLFiEtYaepvS26NDXvHPTLGCNHFYMdPmdxPCDFkYpLmhz2XUpy5QKj2Tz4LX7?cluster=devnet",
+      "slot": 514505431,
+      "confirmationStatus": "finalized"
+    },
+    "traderSwapB": {
+      "signature": "4b7vh1z96QmnEx6rePBSq9dxtKk1SDuQxb8YxbiypEsDUvEZuFy6yKxQYSs1cyXNXXR2jDJdRhHoAtXcqEgTvti8",
+      "lastValidBlockHeight": 501708522,
+      "serializedBytes": 814,
+      "unitsConsumed": 46878,
+      "explorer": "https://explorer.solana.com/tx/4b7vh1z96QmnEx6rePBSq9dxtKk1SDuQxb8YxbiypEsDUvEZuFy6yKxQYSs1cyXNXXR2jDJdRhHoAtXcqEgTvti8?cluster=devnet",
+      "slot": 514505444,
+      "confirmationStatus": "finalized"
+    },
+    "harvestInitial": {
+      "signature": "5B3T2oPMYVv9xp4CmBege8LZxSvvds2Ub368hGyroYGkKMCCAhDAY3D6CzBkE8s7QNATDM2Gy5q9BYANMMjy89vL",
+      "lastValidBlockHeight": 501708533,
+      "serializedBytes": 946,
+      "unitsConsumed": 77458,
+      "explorer": "https://explorer.solana.com/tx/5B3T2oPMYVv9xp4CmBege8LZxSvvds2Ub368hGyroYGkKMCCAhDAY3D6CzBkE8s7QNATDM2Gy5q9BYANMMjy89vL?cluster=devnet",
+      "slot": 514505456,
+      "confirmationStatus": "finalized"
+    },
+    "closeInitial": {
+      "signature": "2Tez6ca2TaLSnMMj6LzCMvSd1a6ExXKo31HMTkLSta3weAnkTQNTjKNSphDqWid7uYxzAZv6YVCYcz7phPgFuTxC",
+      "lastValidBlockHeight": 501708545,
+      "serializedBytes": 962,
+      "unitsConsumed": 108027,
+      "explorer": "https://explorer.solana.com/tx/2Tez6ca2TaLSnMMj6LzCMvSd1a6ExXKo31HMTkLSta3weAnkTQNTjKNSphDqWid7uYxzAZv6YVCYcz7phPgFuTxC?cluster=devnet",
+      "slot": 514505470,
+      "confirmationStatus": "finalized"
+    },
+    "convertAllB": {
+      "signature": "32AZNjRrXCQRugeBMj6ASNceCV73c6o7hAB9Aq77cvbowYGjGjxMCZGkWi2JWieYrpv5snTZN7pTWJGPsmcT3xsi",
+      "lastValidBlockHeight": 501708567,
+      "serializedBytes": 830,
+      "unitsConsumed": 81594,
+      "explorer": "https://explorer.solana.com/tx/32AZNjRrXCQRugeBMj6ASNceCV73c6o7hAB9Aq77cvbowYGjGjxMCZGkWi2JWieYrpv5snTZN7pTWJGPsmcT3xsi?cluster=devnet",
+      "slot": 514505493,
+      "confirmationStatus": "finalized"
+    },
+    "prepareRebalance": {
+      "signature": "4E6L7zfJUfo2Z4AJaom9Ypvshf7AMjGGkVsCYPn2ejJudnUJbXwMmwbzP8L9XcCbn1Y22GZUCPPAu7uoQrZLFmCs",
+      "lastValidBlockHeight": 501708585,
+      "serializedBytes": 830,
+      "unitsConsumed": 85433,
+      "explorer": "https://explorer.solana.com/tx/4E6L7zfJUfo2Z4AJaom9Ypvshf7AMjGGkVsCYPn2ejJudnUJbXwMmwbzP8L9XcCbn1Y22GZUCPPAu7uoQrZLFmCs?cluster=devnet",
+      "slot": 514505508,
+      "confirmationStatus": "finalized"
+    },
+    "openNarrow": {
+      "signature": "4QneDmfedHx2JyKtbpD8UdgvnwjfjNejNsq6owMb8YaNVyWQfotw2z5yEvKMhD84dtgMiN8wyeg3Pzc5JTYwSHvc",
+      "lastValidBlockHeight": 501708591,
+      "serializedBytes": 1124,
+      "unitsConsumed": 160284,
+      "explorer": "https://explorer.solana.com/tx/4QneDmfedHx2JyKtbpD8UdgvnwjfjNejNsq6owMb8YaNVyWQfotw2z5yEvKMhD84dtgMiN8wyeg3Pzc5JTYwSHvc?cluster=devnet",
+      "slot": 514505516,
+      "confirmationStatus": "finalized"
+    },
+    "moveOutsideRange": {
+      "signature": "2UZJkkAUHKxxoXH6dHxguiJGBX3e7v83sGn2hJ8AG42kHzjPTo16nr1RehoxTEGYTivtwxZS4ibjrzfQ6UZnqBYB",
+      "lastValidBlockHeight": 501708614,
+      "serializedBytes": 781,
+      "unitsConsumed": 58611,
+      "explorer": "https://explorer.solana.com/tx/2UZJkkAUHKxxoXH6dHxguiJGBX3e7v83sGn2hJ8AG42kHzjPTo16nr1RehoxTEGYTivtwxZS4ibjrzfQ6UZnqBYB?cluster=devnet",
+      "slot": 514505540,
+      "confirmationStatus": "finalized"
+    },
+    "closeOutsideRange": {
+      "signature": "3qV2X8LCdM5HtPPY7vVbcU6YwVBsNMdXJ1mirsDoTruetPdVbnEVkBegvuRXgnSzQ17sYYWtAkhTuonZ9ruraBxj",
+      "lastValidBlockHeight": 501708629,
+      "serializedBytes": 962,
+      "unitsConsumed": 108909,
+      "explorer": "https://explorer.solana.com/tx/3qV2X8LCdM5HtPPY7vVbcU6YwVBsNMdXJ1mirsDoTruetPdVbnEVkBegvuRXgnSzQ17sYYWtAkhTuonZ9ruraBxj?cluster=devnet",
+      "slot": 514505555,
+      "confirmationStatus": "finalized"
+    },
+    "reopenNewRange": {
+      "signature": "25tBXbapGXcSVBQMc6LVAQ8jWWE2Jwm2pyCfba4RUAgkHgZXqh3MqcHjnF5ZvKwvusCmXFN2oefwdigE7USudztx",
+      "lastValidBlockHeight": 501708642,
+      "serializedBytes": 1124,
+      "unitsConsumed": 166891,
+      "explorer": "https://explorer.solana.com/tx/25tBXbapGXcSVBQMc6LVAQ8jWWE2Jwm2pyCfba4RUAgkHgZXqh3MqcHjnF5ZvKwvusCmXFN2oefwdigE7USudztx?cluster=devnet",
+      "slot": 514505568,
+      "confirmationStatus": "finalized"
+    }
+  },
+  "operations": {
+    "openInitial": {
+      "before": {
+        "slot": 514505373,
+        "storageA": "90000000",
+        "storageB": "9990320",
+        "price": "0.99906384792694307035",
+        "sqrtPriceX64": "18438107573113915102",
+        "tick": -10,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "quote": {
+        "tickLower": -530,
+        "tickUpper": 480,
+        "priceLower": "0.94838252552514229192",
+        "priceUpper": "1.0491681374857573813",
+        "amountA": "8000000",
+        "amountB": "8496564",
+        "amountBMax": "8581530",
+        "liquidity": "330831096",
+        "maximumA": "8080000"
+      },
+      "after": {
+        "slot": 514505381,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.99906384792694307035",
+        "sqrtPriceX64": "18438107573113915102",
+        "tick": -10,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "spentA": "8000000",
+      "spentB": "8496564"
+    },
+    "traderSwapA1": {
+      "before": {
+        "slot": 514505391,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.99906384792694307035",
+        "sqrtPriceX64": "18438107573113915102",
+        "tick": -10,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "quote": {
+        "amountIn": "25000000",
+        "expectedOut": "24935367",
+        "minimumOut": "24686013",
+        "feeAmount": "12500",
+        "priceBefore": "0.99906384792694307035",
+        "priceAfter": "0.9967647930784418824",
+        "sqrtPriceAfterX64": "18416880383284017635",
+        "remainingAccounts": [
+          "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+          "EdVT56tBHfzrk497Ci3hu5ADVsQzHAVreUM4FcNx2oxm",
+          "H2JXuLB4XsPriC74wyEP6AojwcNNT11wHrGjDeZSKRSY",
+          "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs"
+        ]
+      },
+      "after": {
+        "slot": 514505403,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.9967647930784418824",
+        "sqrtPriceX64": "18416880383284017635",
+        "tick": -33,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      }
+    },
+    "traderSwapA2": {
+      "before": {
+        "slot": 514505404,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.9967647930784418824",
+        "sqrtPriceX64": "18416880383284017635",
+        "tick": -33,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "quote": {
+        "amountIn": "20000000",
+        "expectedOut": "19906993",
+        "minimumOut": "19707923",
+        "feeAmount": "10000",
+        "priceBefore": "0.9967647930784418824",
+        "priceAfter": "0.9949312582368183887",
+        "sqrtPriceAfterX64": "18399933790001854619",
+        "remainingAccounts": [
+          "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+          "EdVT56tBHfzrk497Ci3hu5ADVsQzHAVreUM4FcNx2oxm",
+          "H2JXuLB4XsPriC74wyEP6AojwcNNT11wHrGjDeZSKRSY",
+          "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs"
+        ]
+      },
+      "after": {
+        "slot": 514505435,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.9949312582368183887",
+        "sqrtPriceX64": "18399933790001854619",
+        "tick": -51,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      }
+    },
+    "traderSwapB": {
+      "before": {
+        "slot": 514505436,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.9949312582368183887",
+        "sqrtPriceX64": "18399933790001854619",
+        "tick": -51,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "quote": {
+        "amountIn": "10000000",
+        "expectedOut": "10041276",
+        "minimumOut": "9940863",
+        "feeAmount": "5000",
+        "priceBefore": "0.9949312582368183887",
+        "priceAfter": "0.99585163732444363463",
+        "sqrtPriceAfterX64": "18408442417837899909",
+        "remainingAccounts": [
+          "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+          "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+          "H2JXuLB4XsPriC74wyEP6AojwcNNT11wHrGjDeZSKRSY",
+          "EdVT56tBHfzrk497Ci3hu5ADVsQzHAVreUM4FcNx2oxm",
+          "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41"
+        ]
+      },
+      "after": {
+        "slot": 514505445,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.99585163732444363463",
+        "sqrtPriceX64": "18408442417837899909",
+        "tick": -42,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      }
+    },
+    "harvestInitial": {
+      "before": {
+        "slot": 514505447,
+        "storageA": "82000000",
+        "storageB": "1493756",
+        "price": "0.99585163732444363463",
+        "sqrtPriceX64": "18408442417837899909",
+        "tick": -42,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "after": {
+        "slot": 514505457,
+        "storageA": "82000288",
+        "storageB": "1493820",
+        "price": "0.99585163732444363463",
+        "sqrtPriceX64": "18408442417837899909",
+        "tick": -42,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "returnedA": "288",
+      "returnedB": "64"
+    },
+    "closeInitial": {
+      "before": {
+        "slot": 514505457,
+        "storageA": "82000288",
+        "storageB": "1493820",
+        "price": "0.99585163732444363463",
+        "sqrtPriceX64": "18408442417837899909",
+        "tick": -42,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "773CvBcmYFtMBYWwMXKgRmERSUYm2i8Hns4f1y6RPGhj",
+          "nftAccount": "H1kQcCNKwmnvsLKD9ud23z2oupBfbB4DNqY8zzh1YJ3w",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "DsZBEVoYb7iR44ZKifY5DBADZHNWGqcPZTXncbuVkJMk",
+          "liquidity": "330831096",
+          "tickLower": -530,
+          "tickUpper": 480,
+          "priceLower": "0.94838252552514229192",
+          "priceUpper": "1.0491681374857573813",
+          "inRange": true
+        }
+      },
+      "minimumA": "8448049",
+      "minimumB": "7884890",
+      "after": {
+        "slot": 514505473,
+        "storageA": "90533671",
+        "storageB": "9458356",
+        "price": "0.99585163732444363463",
+        "sqrtPriceX64": "18408442417837899909",
+        "tick": -42,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "returnedA": "8533383",
+      "returnedB": "7964536"
+    },
+    "convertAllB": {
+      "before": {
+        "slot": 514505475,
+        "storageA": "90533671",
+        "storageB": "9458356",
+        "price": "0.99585163732444363463",
+        "sqrtPriceX64": "18408442417837899909",
+        "tick": -42,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "quote": {
+        "amountIn": "9458356",
+        "expectedOut": "9488793",
+        "minimumOut": "9393905",
+        "feeAmount": "4730",
+        "priceBefore": "0.99585163732444363463",
+        "priceAfter": "0.99673606187788860157",
+        "sqrtPriceAfterX64": "18416614953114019909",
+        "remainingAccounts": [
+          "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+          "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs",
+          "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41"
+        ]
+      },
+      "after": {
+        "slot": 514505496,
+        "storageA": "100022464",
+        "storageB": "0",
+        "price": "0.99673606187788860157",
+        "sqrtPriceX64": "18416614953114019909",
+        "tick": -33,
+        "tickSpacing": 10,
+        "position": null
+      }
+    },
+    "prepareRebalance": {
+      "before": {
+        "slot": 514505497,
+        "storageA": "100022464",
+        "storageB": "0",
+        "price": "0.99673606187788860157",
+        "sqrtPriceX64": "18416614953114019909",
+        "tick": -33,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "quote": {
+        "amountIn": "10000000",
+        "expectedOut": "9957720",
+        "minimumOut": "9858142",
+        "feeAmount": "5000",
+        "priceBefore": "0.99673606187788860157",
+        "priceAfter": "0.99580448830807817976",
+        "sqrtPriceAfterX64": "18408006634939233292",
+        "remainingAccounts": [
+          "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+          "7D4qXThEMB9kA6C8cS2XwcXkayTswVckAmjTH22mWh41",
+          "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs"
+        ]
+      },
+      "after": {
+        "slot": 514505508,
+        "storageA": "90022464",
+        "storageB": "9957720",
+        "price": "0.99580448830807817976",
+        "sqrtPriceX64": "18408006634939233292",
+        "tick": -43,
+        "tickSpacing": 10,
+        "position": null
+      }
+    },
+    "openNarrow": {
+      "before": {
+        "slot": 514505509,
+        "storageA": "90022464",
+        "storageB": "9957720",
+        "price": "0.99580448830807817976",
+        "sqrtPriceX64": "18408006634939233292",
+        "tick": -43,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "quote": {
+        "tickLower": -100,
+        "tickUpper": 10,
+        "priceLower": "0.99005032874121267922",
+        "priceUpper": "1.0010004501200207272",
+        "amountA": "5000000",
+        "amountB": "5543504",
+        "amountBMax": "5598940",
+        "liquidity": "1919953370",
+        "maximumA": "5050000"
+      },
+      "after": {
+        "slot": 514505520,
+        "storageA": "85022464",
+        "storageB": "4414216",
+        "price": "0.99580448830807817976",
+        "sqrtPriceX64": "18408006634939233292",
+        "tick": -43,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "6YhuE6R92qW7NhvJnEg4aoDxb3vJ1jn6bVzpCxZrHBJ9",
+          "nftAccount": "Bgnon3cWdYpjzYEfdjG2PRPGbPEzfr46NUZA2mGuUTcn",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "B3iJZsZvgDD6UASEzUaPxZkmu11MkhGxJkKHWx8SLHCJ",
+          "liquidity": "1919953370",
+          "tickLower": -100,
+          "tickUpper": 10,
+          "priceLower": "0.99005032874121267922",
+          "priceUpper": "1.0010004501200207272",
+          "inRange": true
+        }
+      },
+      "spentA": "5000000",
+      "spentB": "5543504"
+    },
+    "moveOutsideRange": {
+      "before": {
+        "slot": 514505521,
+        "storageA": "85022464",
+        "storageB": "4414216",
+        "price": "0.99580448830807817976",
+        "sqrtPriceX64": "18408006634939233292",
+        "tick": -43,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "6YhuE6R92qW7NhvJnEg4aoDxb3vJ1jn6bVzpCxZrHBJ9",
+          "nftAccount": "Bgnon3cWdYpjzYEfdjG2PRPGbPEzfr46NUZA2mGuUTcn",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "B3iJZsZvgDD6UASEzUaPxZkmu11MkhGxJkKHWx8SLHCJ",
+          "liquidity": "1919953370",
+          "tickLower": -100,
+          "tickUpper": 10,
+          "priceLower": "0.99005032874121267922",
+          "priceUpper": "1.0010004501200207272",
+          "inRange": true
+        }
+      },
+      "quote": {
+        "amountIn": "150000000",
+        "expectedOut": "148316152",
+        "minimumOut": "146832990",
+        "feeAmount": "75001",
+        "priceBefore": "0.99580448830807817976",
+        "priceAfter": "0.98249558384415415615",
+        "sqrtPriceAfterX64": "18284581558238026161",
+        "remainingAccounts": [
+          "ALQxAjXyVArBRENY2gCwVHGswCJsq3nQu3ABWDSCPnhz",
+          "EdVT56tBHfzrk497Ci3hu5ADVsQzHAVreUM4FcNx2oxm",
+          "H2JXuLB4XsPriC74wyEP6AojwcNNT11wHrGjDeZSKRSY",
+          "BCJhYme2FJsu2Jbtt5AJxkFvndwyphkM6Mc44BsKywTs"
+        ]
+      },
+      "after": {
+        "slot": 514505545,
+        "storageA": "85022464",
+        "storageB": "4414216",
+        "price": "0.98249558384415415615",
+        "sqrtPriceX64": "18284581558238026161",
+        "tick": -177,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "6YhuE6R92qW7NhvJnEg4aoDxb3vJ1jn6bVzpCxZrHBJ9",
+          "nftAccount": "Bgnon3cWdYpjzYEfdjG2PRPGbPEzfr46NUZA2mGuUTcn",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "B3iJZsZvgDD6UASEzUaPxZkmu11MkhGxJkKHWx8SLHCJ",
+          "liquidity": "1919953370",
+          "tickLower": -100,
+          "tickUpper": 10,
+          "priceLower": "0.99005032874121267922",
+          "priceUpper": "1.0010004501200207272",
+          "inRange": false
+        }
+      }
+    },
+    "closeOutsideRange": {
+      "before": {
+        "slot": 514505547,
+        "storageA": "85022464",
+        "storageB": "4414216",
+        "price": "0.98249558384415415615",
+        "sqrtPriceX64": "18284581558238026161",
+        "tick": -177,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "6YhuE6R92qW7NhvJnEg4aoDxb3vJ1jn6bVzpCxZrHBJ9",
+          "nftAccount": "Bgnon3cWdYpjzYEfdjG2PRPGbPEzfr46NUZA2mGuUTcn",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "B3iJZsZvgDD6UASEzUaPxZkmu11MkhGxJkKHWx8SLHCJ",
+          "liquidity": "1919953370",
+          "tickLower": -100,
+          "tickUpper": 10,
+          "priceLower": "0.99005032874121267922",
+          "priceUpper": "1.0010004501200207272",
+          "inRange": false
+        }
+      },
+      "minimumA": "10477181",
+      "minimumB": "0",
+      "after": {
+        "slot": 514505559,
+        "storageA": "95607822",
+        "storageB": "4414216",
+        "price": "0.98249558384415415615",
+        "sqrtPriceX64": "18284581558238026161",
+        "tick": -177,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "returnedA": "10585358",
+      "returnedB": "0"
+    },
+    "reopenNewRange": {
+      "before": {
+        "slot": 514505560,
+        "storageA": "95607822",
+        "storageB": "4414216",
+        "price": "0.98249558384415415615",
+        "sqrtPriceX64": "18284581558238026161",
+        "tick": -177,
+        "tickSpacing": 10,
+        "position": null
+      },
+      "quote": {
+        "tickLower": -690,
+        "tickUpper": 320,
+        "priceLower": "0.93332989984617362141",
+        "priceUpper": "1.0325158533885477396",
+        "amountA": "3000000",
+        "amountB": "3045889",
+        "amountBMax": "3076348",
+        "liquidity": "121257661",
+        "maximumA": "3030000"
+      },
+      "after": {
+        "slot": 514505571,
+        "storageA": "92607822",
+        "storageB": "1368327",
+        "price": "0.98249558384415415615",
+        "sqrtPriceX64": "18284581558238026161",
+        "tick": -177,
+        "tickSpacing": 10,
+        "position": {
+          "nftMint": "8NSgsA1HD4ii7wdYmbhfqtEYo4pHDdGhm8UyLKCZ7FAV",
+          "nftAccount": "p2kCSLN8VxZa878CyHyCuMf3UmnVCeeBvf5wTLDzg3m",
+          "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+          "personalPosition": "3SJBzgD5PbJRkJDXb3APw8Ai3DEjpn6FRgUmWgewnKsZ",
+          "liquidity": "121257661",
+          "tickLower": -690,
+          "tickUpper": 320,
+          "priceLower": "0.93332989984617362141",
+          "priceUpper": "1.0325158533885477396",
+          "inRange": true
+        }
+      },
+      "spentA": "3000000",
+      "spentB": "3045889"
+    }
+  },
+  "trader": "CQ4zUKdUhjjm15yeXryMXU1A1T7w8dcRcNkThfqkqzXi",
+  "final": {
+    "slot": 514506771,
+    "storageA": "92607822",
+    "storageB": "1368327",
+    "price": "0.98249558384415415615",
+    "sqrtPriceX64": "18284581558238026161",
+    "tick": -177,
+    "tickSpacing": 10,
+    "position": {
+      "nftMint": "8NSgsA1HD4ii7wdYmbhfqtEYo4pHDdGhm8UyLKCZ7FAV",
+      "nftAccount": "p2kCSLN8VxZa878CyHyCuMf3UmnVCeeBvf5wTLDzg3m",
+      "nftOwner": "DYc1DGr8GjgfT8syxUmT6MVrgYwwGuWbKTkqBi24noT9",
+      "personalPosition": "3SJBzgD5PbJRkJDXb3APw8Ai3DEjpn6FRgUmWgewnKsZ",
+      "liquidity": "121257661",
+      "tickLower": -690,
+      "tickUpper": 320,
+      "priceLower": "0.93332989984617362141",
+      "priceUpper": "1.0325158533885477396",
+      "inRange": true
+    }
+  },
+  "verification": {
+    "fullCycle": true,
+    "thirdPartyTrader": true,
+    "earnedBothFees": true,
+    "fullCloseAndBurn": true,
+    "allBConvertedToA": true,
+    "outOfRangeAndRebalance": true,
+    "tokenAuthoritiesRestored": true,
+    "transactionSignersAndTokenDeltasVerified": true,
+    "deployedBytecodeMatches": true,
+    "legacyTmrAccountsUnchanged": true,
+    "rustVaultTestsPassed": 33,
+    "javascriptTestsPassed": 10,
+    "rootTestsPassed": 34,
+    "localValidatorFullCycle": true,
+    "freshRaydiumFixture": {
+      "slot": 514506363,
+      "bytecodeSha256": "60255f5ce990ef6ac6847e2316400d2dc2cb83968cb885bf44d6dfac2531ad43"
+    },
+    "idlMatchesGenerated": true,
+    "repeatDemoDoesNotMoveFunds": true,
+    "readOnlyShowsWithoutWallet": true,
+    "legacyTmrClientShowPassed": true
+  },
+  "deployment": {
+    "programData": "CPkPhPnJszzjeAGNz185bp9mKTHRErsPe3YEHV3qwMRw",
+    "deployedSlot": 514505073,
+    "bytecodeSize": 534736,
+    "allocatedBytecodeSize": 534736,
+    "bytecodeSha256": "7389291549e33f5221f9265829e36852281639c0f6e2ec6a93f8e1d6e14b1ee6",
+    "legacy": {
+      "vault": {
+        "address": "FovmQp6HZYcLGGBxqCzwiRApoHmmRmAFnMkXkwGJPT35",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 145,
+        "dataSha256": "a84c6e45146d8c88b1375c958b5f0e6393fa7a65bbb4b0136eac1693d1028d60"
+      },
+      "position": {
+        "address": "EeLZf5W1GJ5Q5UW6nxYmxb4h7d2W2r2D2m2ZaN5DNzGw",
+        "owner": "J6x4mnjWyfsAYVVd1zNSfJwf9FG1k1LNwzjkoodkKmnN",
+        "dataSize": 81,
+        "dataSha256": "f5a0e904077256bde4de5160136ef11491e1286ff33d91d5520bf48c6d6aa2ac"
+      },
+      "shareMint": {
+        "address": "EZhrX7Gnxzs3gDMwCmMUUccvTZf2q3KBcGAZ7qqT2BP6",
+        "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "dataSize": 82,
+        "dataSha256": "a89b51fb7e429b6e18df642e1fca903e8fe5f9facdb8d8e11ef5dcef3eb5004e"
+      },
+      "tokenVault": {
+        "address": "4CADSCz6sFS5DDrmQpeET7gd5M3f4HHnWMXAZnLZEiFr",
+        "owner": "TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb",
+        "dataSize": 178,
+        "dataSha256": "4c0016bc426c73b73b2ff3745b05bde52fe5c00c9583e08bed049f67cd971899"
+      }
+    },
+    "legacyTmrAccountsUnchanged": true,
+    "upgradeAuthority": "8ijYtQTzr7MSqvxxGZpGr9w3FKMkyY1W8pcUBYNymLSi",
+    "upgradeSignature": "5wtsdbKd2SESj1qH4WUk6vvr8NLmppBN5CdoiDQP24C3JV1xyRA9H1zeo2RkTMbq2pcybhTJck5yGoRNNA94CPrg",
+    "idlMetadata": "EMvd2dZp8zgCJKXYBYxYzTUULBnB4W6FJ8KS88xAf5XX",
+    "idlMatchesGenerated": true
+  },
+  "verifiedAt": "2026-10-24T05:41:11.059Z"
+}

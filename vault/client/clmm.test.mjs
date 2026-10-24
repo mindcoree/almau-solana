@@ -44,3 +44,21 @@ test('Нулевая, отрицательная, бесконечная цен�
   for (const tickSpacing of [0, -10, 1.5]) assert.throws(() => quotePosition({ ...input, tickSpacing }));
   assert.throws(() => quotePosition({ ...input, amountA: new BN(0) }));
 });
+
+test('Ширина диапазона задаётся администратором, узкий диапазон увеличивает L на тот же A', () => {
+  const wide = quotePosition({ ...input, range: '0.05' });
+  const narrow = quotePosition({ ...input, range: '0.005' });
+  assert(new Decimal(wide.priceLower).lte('0.95') && new Decimal(wide.priceUpper).gte('1.05'));
+  assert(new Decimal(narrow.priceLower).lte('0.995') && new Decimal(narrow.priceUpper).gte('1.005'));
+  assert(narrow.liquidity.gt(wide.liquidity));
+  for (const range of ['0','-0.1','1','2','NaN']) assert.throws(() => quotePosition({ ...input, range }));
+});
+
+test('Администратор задаёт нижнюю и верхнюю цену явно', () => {
+  const result = quotePosition({ ...input, lowerPrice: '0.93', upperPrice: '1.07' });
+  assert(new Decimal(result.priceLower).lte('0.93'));
+  assert(new Decimal(result.priceUpper).gte('1.07'));
+  for (const [lowerPrice, upperPrice] of [['1.01','1.07'],['0.9','0.99'],['0','1.1']]) {
+    assert.throws(() => quotePosition({ ...input, lowerPrice, upperPrice }));
+  }
+});

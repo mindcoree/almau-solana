@@ -30,6 +30,7 @@
 | Неделя 10 — CPI и вывод | Сжигание shares с подписью пользователя, пропорциональная выплата с подписью PDA и учёт комиссии TMR | [vault/](vault/README.md#неделя-10-cpi-и-вывод-из-vault) | [Проверки и защита](vault/README.md#проверки-недели-10) |
 | Неделя 11 — AMM и CLMM | Два тестовых токена, пул Raydium в Devnet по цене 1:1 и NFT-позиция в диапазоне примерно ±10% | [Скрипт](vault/client/clmm.mjs) | [Адреса, диапазон и защита](vault/README-week11.md) |
 | Неделя 12 — Swap через Raydium | Два хранилища vault, admin-only CPI swap, минимум выхода и откат по slippage | [Программа](vault/programs/vault/src/swap.rs) · [Клиент](vault/client/swap.mjs) | [Транзакции, цена и защита](vault/README-week12.md) |
+| Неделя 13 — позиция в CLMM | NFT принадлежит vault, сбор комиссий, полный close и перебалансировка после выхода цены за диапазон | [Программа](vault/programs/vault/src/position.rs) · [Клиент](vault/client/position.mjs) | [Результаты devnet и защита](vault/README-week13.md) |
 
 ### Неделя 3 — локальная копилка Piggy
 
@@ -155,6 +156,16 @@ Anchor проверяет подпись, адрес и владельца ак�
 Подробности — в [README недели 12](vault/README-week12.md), данные RPC —
 в [deployment-week12.json](vault/deployment-week12.json).
 
+### Неделя 13 — позиция vault в CLMM
+
+В devnet vault разместил оба токена в диапазоне ±5%, получил NFT позиции,
+собрал 0,000288 A + 0,000064 B после обменов другого кошелька и закрыл
+всю ликвидность. Затем проверены обратный обмен B → A и перебалансировка:
+цена вышла из узкого диапазона, позиция закрыта и открыта новая вокруг
+текущей цены. Перед пользовательским выводом администратор должен закрыть
+LP и вернуть весь B в A. [Транзакции, команды и ответы для защиты](vault/README-week13.md),
+[снимок RPC](vault/deployment-week13.json). Пройдены 33 теста vault и 10 JS-тестов.
+
 ## Структура репозитория
 
 ```text
@@ -174,7 +185,7 @@ almau-solana/
 ├── counter/               # неделя 5: Anchor Counter, IDL, клиент и тесты
 ├── profile/               # неделя 6: Anchor Profile, IDL, клиент и тесты
 ├── token/                 # неделя 7: клиент Token-2022
-├── vault/                 # недели 8–12: Anchor vault, CLMM, CPI swap, IDL и тесты
+├── vault/                 # недели 8–13: Anchor vault, swap, CLMM-позиции, IDL и тесты
 ├── docs/
 │   └── piggy-vault.md     # подробное руководство и разбор устройства Piggy
 └── reports/

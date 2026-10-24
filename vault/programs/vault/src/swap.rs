@@ -40,10 +40,35 @@ pub fn execute<'info>(
     amount_in: u64,
     minimum_out: u64,
 ) -> Result<()> {
+    execute_direction(ctx, amount_in, minimum_out, false)
+}
+
+pub fn execute_back<'info>(
+    ctx: Context<'info, Swap<'info>>,
+    amount_in: u64,
+    minimum_out: u64,
+) -> Result<()> {
+    execute_direction(ctx, amount_in, minimum_out, true)
+}
+
+fn execute_direction<'info>(
+    ctx: Context<'info, Swap<'info>>,
+    amount_in: u64,
+    minimum_out: u64,
+    back: bool,
+) -> Result<()> {
     require!(amount_in > 0, VaultError::ZeroAmount);
     require!(minimum_out > 0, VaultError::ZeroMinimumOut);
-    let input_before = ctx.accounts.token_vault.amount;
-    let output_before = ctx.accounts.quote_vault.amount;
+    let input_before = if back {
+        ctx.accounts.quote_vault.amount
+    } else {
+        ctx.accounts.token_vault.amount
+    };
+    let output_before = if back {
+        ctx.accounts.token_vault.amount
+    } else {
+        ctx.accounts.quote_vault.amount
+    };
     require!(input_before >= amount_in, VaultError::InsufficientAssets);
     {
         let pool = ctx.accounts.pool_state.load()?;
@@ -95,16 +120,40 @@ pub fn execute<'info>(
                 payer: ctx.accounts.vault.to_account_info(),
                 amm_config: ctx.accounts.amm_config.to_account_info(),
                 pool_state: ctx.accounts.pool_state.to_account_info(),
-                input_token_account: ctx.accounts.token_vault.to_account_info(),
-                output_token_account: ctx.accounts.quote_vault.to_account_info(),
-                input_vault: ctx.accounts.input_vault.to_account_info(),
-                output_vault: ctx.accounts.output_vault.to_account_info(),
+                input_token_account: if back {
+                    ctx.accounts.quote_vault.to_account_info()
+                } else {
+                    ctx.accounts.token_vault.to_account_info()
+                },
+                output_token_account: if back {
+                    ctx.accounts.token_vault.to_account_info()
+                } else {
+                    ctx.accounts.quote_vault.to_account_info()
+                },
+                input_vault: if back {
+                    ctx.accounts.output_vault.to_account_info()
+                } else {
+                    ctx.accounts.input_vault.to_account_info()
+                },
+                output_vault: if back {
+                    ctx.accounts.input_vault.to_account_info()
+                } else {
+                    ctx.accounts.output_vault.to_account_info()
+                },
                 observation_state: ctx.accounts.observation_state.to_account_info(),
                 token_program: ctx.accounts.token_program.to_account_info(),
                 token_program_2022: ctx.accounts.token_program_2022.to_account_info(),
                 memo_program: ctx.accounts.memo_program.to_account_info(),
-                input_vault_mint: ctx.accounts.asset_mint.to_account_info(),
-                output_vault_mint: ctx.accounts.quote_mint.to_account_info(),
+                input_vault_mint: if back {
+                    ctx.accounts.quote_mint.to_account_info()
+                } else {
+                    ctx.accounts.asset_mint.to_account_info()
+                },
+                output_vault_mint: if back {
+                    ctx.accounts.asset_mint.to_account_info()
+                } else {
+                    ctx.accounts.quote_mint.to_account_info()
+                },
             },
             &[seeds],
         )
@@ -117,14 +166,19 @@ pub fn execute<'info>(
     ctx.accounts.token_vault.reload()?;
     ctx.accounts.quote_vault.reload()?;
     let spent = input_before
-        .checked_sub(ctx.accounts.token_vault.amount)
+        .checked_sub(if back {
+            ctx.accounts.quote_vault.amount
+        } else {
+            ctx.accounts.token_vault.amount
+        })
         .ok_or(VaultError::MathOverflow)?;
-    let received = ctx
-        .accounts
-        .quote_vault
-        .amount
-        .checked_sub(output_before)
-        .ok_or(VaultError::MathOverflow)?;
+    let received = (if back {
+        ctx.accounts.token_vault.amount
+    } else {
+        ctx.accounts.quote_vault.amount
+    })
+    .checked_sub(output_before)
+    .ok_or(VaultError::MathOverflow)?;
     require_eq!(spent, amount_in, VaultError::PartialSwap);
     require!(received >= minimum_out, VaultError::SlippageExceeded);
     ctx.accounts.vault.total_deposited = ctx.accounts.token_vault.amount;

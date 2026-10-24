@@ -11,13 +11,15 @@ export function minimumOutput(expected, slippageBps = 100) {
   return minimum;
 }
 
-export function quotePosition({ price, decimalsA, decimalsB, tickSpacing, amountA }) {
+export function quotePosition({ price, decimalsA, decimalsB, tickSpacing, amountA, range = '0.1', lowerPrice, upperPrice }) {
   const current = new Decimal(price);
   assert(current.isFinite() && current.gt(0), 'Цена должна быть положительной');
   assert(Number.isInteger(tickSpacing) && tickSpacing > 0, 'Неверный шаг тиков');
   assert(BN.isBN(amountA) && amountA.gt(new BN(0)), 'Нужна положительная сумма token A');
-  const lower = current.mul('0.9');
-  const upper = current.mul('1.1');
+  assert(new Decimal(range).gt(0) && new Decimal(range).lt(1), 'Диапазон должен быть между 0 и 1');
+  const lower = lowerPrice === undefined ? current.mul(new Decimal(1).sub(range)) : new Decimal(lowerPrice);
+  const upper = upperPrice === undefined ? current.mul(new Decimal(1).add(range)) : new Decimal(upperPrice);
+  assert(lower.gt(0) && lower.lt(current) && upper.gt(current), 'Текущая цена должна быть внутри диапазона');
   const tickLower = TickUtil.toTickIndex(TickUtil.priceToTick(lower, decimalsA, decimalsB), tickSpacing);
   let tickUpper = TickUtil.toTickIndex(TickUtil.priceToTick(upper, decimalsA, decimalsB), tickSpacing);
   if (TickUtil.tickToPrice(tickUpper, decimalsA, decimalsB).lt(upper)) tickUpper += tickSpacing;

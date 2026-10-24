@@ -141,7 +141,6 @@ async function snapshot(commitment = 'confirmed') {
   assert(a.owner.equals(vault) && b.owner.equals(vault));
   assert(a.mint.equals(assetMint) && b.mint.equals(quoteMint));
   assert(mint.mintAuthority.equals(vault));
-  assert.equal(mint.supply, 0n);
   const pool = PoolInfoLayout.decode(infos.poolState.data);
   const hash = createHash('sha256');
   for (const [name, info] of Object.entries(infos)) hash.update(addresses[name].toBuffer()).update(info.data);

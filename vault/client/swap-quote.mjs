@@ -5,11 +5,11 @@ import { Raydium, DEV_API_URLS, DEVNET_PROGRAM_ID, swapInternal, getPdaExBitmapA
 import BN from 'bn.js';
 import { minimumOutput } from './clmm-math.mjs';
 
-export async function quoteSwap(connection, poolAddress, amountIn) {
+export async function quoteSwap(connection, poolAddress, amountIn, zeroForOne = true) {
   const raydium = await Raydium.load({ connection, cluster: 'devnet', disableFeatureCheck: true,
     disableLoadToken: true, urlConfigs: DEV_API_URLS });
   const poolId = new PublicKey(poolAddress);
-  const { poolInfo, rpcData, configInfo, tickArrays } = await raydium.clmm.getSwapPoolInfo(poolAddress, true);
+  const { poolInfo, rpcData, configInfo, tickArrays } = await raydium.clmm.getSwapPoolInfo(poolAddress, zeroForOne);
   const programId = new PublicKey(poolInfo.programId);
   assert(programId.equals(DEVNET_PROGRAM_ID.CLMM_PROGRAM_ID));
   const bitmap = getPdaExBitmapAccount(programId, poolId).publicKey;
@@ -17,10 +17,10 @@ export async function quoteSwap(connection, poolAddress, amountIn) {
   assert(bitmapInfo?.owner.equals(programId));
   const simulated = swapInternal({ programId, poolId, poolInfo: rpcData, tickArrays, configInfo,
     tickarrayBitmapExtension: TickArrayBitmapExtensionLayout.decode(bitmapInfo.data),
-    amountSpecified: new BN(amountIn), sqrtPriceLimitX64: new BN(0), zeroForOne: true,
+    amountSpecified: new BN(amountIn), sqrtPriceLimitX64: new BN(0), zeroForOne,
     isBaseInput: true, blockTimestamp: Math.floor(Date.now() / 1000), includeExtraTickArrays: true });
   assert(simulated.allTrade && simulated.amountSpecifiedRemaining.isZero(), 'Недостаточно ликвидности для полного обмена');
-  return { amountIn, expectedOut: simulated.amountCalculated.toString(),
+  return { amountIn, tickBefore: rpcData.tickCurrent, expectedOut: simulated.amountCalculated.toString(),
     minimumOut: minimumOutput(simulated.amountCalculated).toString(), feeAmount: simulated.feeAmount.toString(),
     priceBefore: TickUtil.sqrtPriceX64ToPrice(rpcData.sqrtPriceX64, rpcData.mintDecimalsA, rpcData.mintDecimalsB).toString(),
     priceAfter: TickUtil.sqrtPriceX64ToPrice(simulated.sqrtPriceX64, rpcData.mintDecimalsA, rpcData.mintDecimalsB).toString(),
